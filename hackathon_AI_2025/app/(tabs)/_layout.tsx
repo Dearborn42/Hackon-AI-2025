@@ -5,11 +5,25 @@ import { HapticTab } from '@/components/haptic-tab';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Drawer } from 'expo-router/drawer';
+import { Text } from 'react-native';
+import { Entypo,FontAwesome,Feather } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
 
   return (
+    // <Drawer
+    //   screenOptions={{ drawerActiveTintColor: 'blue', headerShown: false }}>
+    //   <Drawer.Screen
+    //     name="index" // This is the name of the page and must match the url from root
+    //     options={{
+    //       title: 'Home',
+    //       headerShown: false,
+    //       drawerIcon: () => <Text><Entypo name="share" size={24} color="black" /></Text>,
+    //     }}
+    //   />
+    // </Drawer>
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
@@ -23,11 +37,46 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
         }}
       />
-      <Tabs.Screen
+      {/* <Tabs.Screen
         name="explore"
         options={{
           title: 'Explore',
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
+        }}
+      /> */}
+      <Tabs.Screen
+        name="memory"
+        options={{
+          title: 'Memory',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="brain.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="planning"
+        options={{
+          title: 'Planning',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="audio"
+        options={{
+          title: 'Audio',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="multitrack.audio.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="self-control"
+        options={{
+          title: 'Self-Control',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="mad.face.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: 'Settings',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="settings" color={color} />,
         }}
       />
     </Tabs>
