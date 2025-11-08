@@ -2,12 +2,9 @@ import { Tabs } from 'expo-router';
 import React from 'react';
 
 import { HapticTab } from '@/components/haptic-tab';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
-import { Drawer } from 'expo-router/drawer';
-import { Text } from 'react-native';
-import { Entypo,FontAwesome,Feather } from '@expo/vector-icons';
+import { AntDesign, FontAwesome5, MaterialIcons, Ionicons } from '@expo/vector-icons';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -34,49 +31,42 @@ export default function TabLayout() {
         name="index"
         options={{
           title: 'Home',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="house.fill" color={color} />,
+          tabBarIcon: () => <AntDesign name="home" size={16} color="white" />,
         }}
       />
-      {/* <Tabs.Screen
-        name="explore"
-        options={{
-          title: 'Explore',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
-        }}
-      /> */}
       <Tabs.Screen
         name="memory"
         options={{
           title: 'Memory',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="brain.fill" color={color} />,
+          tabBarIcon: () => <FontAwesome5 name="brain" size={16} color="white" />,
         }}
       />
       <Tabs.Screen
         name="planning"
         options={{
           title: 'Planning',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="calendar" color={color} />,
+          tabBarIcon: () => <FontAwesome5 name="calendar-alt" size={16} color="white" />,
         }}
       />
       <Tabs.Screen
         name="audio"
         options={{
           title: 'Audio',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="multitrack.audio.fill" color={color} />,
+          tabBarIcon: () => <MaterialIcons name="multitrack-audio" size={16} color="white" />,
         }}
       />
       <Tabs.Screen
         name="self-control"
         options={{
           title: 'Self-Control',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="mad.face.fill" color={color} />,
+          tabBarIcon: () => <Ionicons name="happy-outline" size={16} color="white" />,
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: 'Settings',
-          tabBarIcon: ({ color }) => <IconSymbol size={28} name="settings" color={color} />,
+          tabBarIcon: () => <AntDesign name="setting" size={16} color="white" />,
         }}
       />
     </Tabs>

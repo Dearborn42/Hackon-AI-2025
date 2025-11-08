@@ -4,7 +4,7 @@ import { ComponentProps } from 'react';
 import { OpaqueColorValue, StyleProp, TextStyle } from 'react-native';
 import { SymbolWeight } from 'expo-symbols';
 
-type IconFamily = 'MaterialIcons' | 'Fontisto';
+type IconFamily = 'AntDesign'
 
 type IconMappingEntry = {
   family: IconFamily;
@@ -12,15 +12,13 @@ type IconMappingEntry = {
 };
 
 const MAPPING: Record<string, IconMappingEntry> = {
-  'house.fill': { family: 'MaterialIcons', name: 'home' },
-  'paperplane.fill': { family: 'MaterialIcons', name: 'send' },
-  'chevron.left.forwardslash.chevron.right': { family: 'MaterialIcons', name: 'code' },
-  'chevron.right': { family: 'MaterialIcons', name: 'chevron-right' },
-  'brain.fill': { family: 'MaterialIcons', name: 'psychology' },
-  'calendar': { family: 'MaterialIcons', name: 'calendar-today' },
-  'multitrack.audio.fill': { family: 'MaterialIcons', name: 'multitrack-audio' },
-  'mad.face.fill': { family: 'Fontisto', name: 'mad' }, // Fontisto icon
-  'settings': {family: 'Fontisto', name: 'player-settings'}
+  // 'house.fill': { family: 'MaterialIcons', name: 'home' },
+  // 'brain.fill': { family: 'MaterialIcons', name: 'psychology' },
+  // 'calendar': { family: 'MaterialIcons', name: 'calendar-today' },
+  // 'spatial': { family: 'MaterialIcons', name: 'audiotrack' },
+  // 'happy': { family: 'Fontisto', name: 'happy' }, // Fontisto icon
+  // 'settings': {family: 'Fontisto', name: 'player-settings'}
+  'home': {family: 'AntDesign', name: 'home'}
 };
 
 type IconSymbolProps = {
@@ -40,10 +38,10 @@ export function IconSymbol({ name, size = 24, color, style }: IconSymbolProps) {
   }
 
   switch (icon.family) {
-    case 'MaterialIcons':
-      return <MaterialIcons name={icon.name as any} size={size} color={color} style={style} />;
-    case 'Fontisto':
-      return <Fontisto name={icon.name as any} size={size} color={color} style={style} />;
+    case 'AntDesign':
+      return <MaterialIcons name={icon.name as any} size={size} color={color} 
+      style={style} 
+      />;
     default:
       return null;
   }
