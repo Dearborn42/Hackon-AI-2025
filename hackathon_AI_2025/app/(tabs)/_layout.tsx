@@ -1,11 +1,23 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
-import { Platform, StyleSheet, View,Text } from 'react-native';
+import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
+import { Platform, StyleSheet, View,Text,TouchableOpacity } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
+
+function CustomTabButton({ children, onPress }: BottomTabBarButtonProps) {
+  return (
+    <TouchableOpacity
+      onPress={onPress}
+      style={styles.buttonContainer}
+    >
+      {children}
+    </TouchableOpacity>
+  );
+}
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
@@ -27,25 +39,26 @@ export default function TabLayout() {
         tabBarActiveTintColor: "#1C6E8C",
         tabBarInactiveTintColor:"#a6a6a6",
         headerShown: false,
-        tabBarButton: HapticTab,
         tabBarStyle:{
           backgroundColor:"white",
           outline:"none",
           borderColor:"#d9d9d9",
           borderTopWidth:2,
           height:80,
-          justifyContent:"center",
         },
+        tabBarButton: (props) => <CustomTabButton {...props} />,
+        tabBarLabelStyle:{
+          margin:0,
+          fontSize:16,
+          fontWeight:"600",
+        }
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          tabBarLabel: () => null,
+          title: 'Home',
           tabBarIcon: () => 
-            <View style={styles.buttonContainer}>
               <FontAwesome6 name="house-chimney" size={iconSize} style={styles.icons} />
-              <Text style={styles.iconText}>Home</Text>
-            </View>
         }}
       />
       <Tabs.Screen
@@ -90,13 +103,8 @@ const styles = StyleSheet.create({
   icons:{
     color:"#1C6E8C",
   },
-  iconText:{
-    color:"#1C6E8C",
-    fontSize:16,
-    fontWeight:"700",
-  },
   buttonContainer: {
-    flexDirection: "column",
+    flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
