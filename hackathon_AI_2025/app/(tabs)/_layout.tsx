@@ -36,7 +36,7 @@ export default function TabLayout() {
     // </Drawer>
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#1C6E8C",
+        tabBarActiveTintColor: "#028090",
         tabBarInactiveTintColor:"#a6a6a6",
         headerShown: false,
         tabBarStyle:{
@@ -49,7 +49,7 @@ export default function TabLayout() {
         tabBarButton: (props) => <CustomTabButton {...props} />,
         tabBarLabelStyle:{
           margin:0,
-          fontSize:16,
+          fontSize:12,
           fontWeight:"600",
         }
       }}>
@@ -101,7 +101,7 @@ export default function TabLayout() {
 }
 const styles = StyleSheet.create({
   icons:{
-    color:"#1C6E8C",
+    color:"#028090",
   },
   buttonContainer: {
     flex: 1,
