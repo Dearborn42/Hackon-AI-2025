@@ -96,6 +96,13 @@ export default function TabLayout() {
           tabBarIcon: () => <FontAwesome6 name="gear" size={iconSize} style={styles.icons} />,
         }}
       />
+      <Tabs.Screen
+        name="visual"
+        options={{
+          title: 'Visual',
+          tabBarIcon: () => <FontAwesome6 name="eye" size={iconSize} style={styles.icons} />,
+        }}
+      />
     </Tabs>
   );
 }
