@@ -1,98 +1,179 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { StyleSheet, View, Text } from 'react-native';
+import * as SecureStore from 'expo-secure-store';
+import { useEffect, useState } from 'react';
+import { Platform } from 'react-native';
+import { Dropdown } from "react-native-element-dropdown"
+import Slider from '@react-native-community/slider';
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+export interface Settings {
+  voice: "english" | "african" | "american" | "indian",
+  volume: number,
+}
+
+async function save(key: string, value: any) {
+  const formattedData = JSON.stringify(value)
+  if (Platform.OS == "web") {
+    localStorage.setItem(key, formattedData);
+  } else {
+    await SecureStore.setItemAsync(key, formattedData);
+
+  }
+}
+
+async function getValue(key: string) {
+  let result: string | null = null;
+
+  if (Platform.OS === 'web') { // check if on web
+    result = localStorage.getItem(key);
+  } else {
+    result = await SecureStore.getItemAsync(key);
+  }
+
+  if (result === null) return null;
+  try {
+    return JSON.parse(result);
+  } catch (e) {
+    return result;
+  }
+}
 
 export default function TabSixScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Settings</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      {/* <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+  const [settings, setSettings] = useState<Settings>({
+    voice: 'english',
+    volume: 50 // default settings
+  });
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView> */}
-    </ParallaxScrollView>
+  useEffect(() => { // load settings from local storage if no data then keep defaults
+    const loadSettings = async () => {
+      const newSettings = { ...settings };
+
+      for (const key in newSettings) {
+
+        const newValue = await getValue(key)
+
+        if (newValue !== null) {
+          if (key == "volume") {
+             (newSettings as any)[key] = Number(newValue)
+          } else {
+            (newSettings as any)[key] = newValue
+          }
+        
+        }
+      }
+
+
+
+      setSettings(newSettings);
+    };
+
+    loadSettings();
+  }, []);
+
+  return (
+    <View style={styles.bgContainer}>
+      {}
+      <View style={styles.topBar}>
+        <Text style={styles.text}>Settings</Text>
+      </View>
+
+      {}
+      <View style={styles.bgContainer}>
+        <Text style={styles.textBody}>Voice</Text>
+        <Dropdown
+          data={[
+            { label: "English", value: "english" },
+            { label: "African", value: "african" },
+            { label: "Indian", value: "indian" },
+            { label: "American", value: "american" }
+          ]}
+          value={settings.voice}
+          style={styles.dropdown}
+          placeholderStyle={styles.placeholderStyle}
+          selectedTextStyle={styles.selectedTextStyle}
+          inputSearchStyle={styles.inputSearchStyle}
+          iconStyle={styles.iconStyle}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder="Select item"
+          searchPlaceholder="Search..."
+          onChange={item => {
+            setSettings({ ...settings, voice: item.value });
+            save("voice", item.value);
+          }}
+        />
+
+        <Text style={styles.textBody}>Game Volume</Text>
+        <Slider
+          value={settings.volume}
+          onValueChange={item => {
+            setSettings({ ...settings, volume: Math.ceil(item) });
+            save("volume", Math.ceil(item));
+          }}
+          style={{ width: 200, height: 40 }}
+          minimumValue={0}
+          maximumValue={100}
+          minimumTrackTintColor="#000000"
+          maximumTrackTintColor="#000000"
+          thumbTintColor='#028090'
+        />
+        <Text>{settings.volume}</Text>
+      </View>
+    </View>
+
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  bgContainer: {
+    height: "100%",
+    backgroundColor: "white"
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  topBar: {
+    height: 100,
+    width: "100%",
+    backgroundColor: "#028090",
+    flexDirection: "row",
+    alignItems: "center",
+    paddingLeft: 10,
+    borderBottomWidth: 2,
+    borderBottomColor: "#025964",
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  text: {
+    color: "white",
+    fontSize: 48,
+    fontWeight: "700",
+  },
+  textBody: {
+    color: "gray",
+    fontSize: 24,
+    fontWeight: "400",
+  },
+  icons: {
+    color: "white",
+    marginRight: 10,
+  },
+
+  dropdown: {
+    height: 50,
+    borderColor: 'gray',
+    borderWidth: 0.5,
+    borderRadius: 8,
+    paddingHorizontal: 8,
+  },
+  placeholderStyle: {
+    fontSize: 16,
+  },
+  selectedTextStyle: {
+    fontSize: 16,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
+  },
+  inputSearchStyle: {
+    height: 40,
+    fontSize: 16,
   },
 });
