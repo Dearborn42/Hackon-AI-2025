@@ -40,11 +40,15 @@
         }
       ],
       "expo-secure-store",
-      "expo-audio"
+      "expo-audio",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "assetBundlePatterns": [
+      "./assets/fonts/*"
+    ]
   }
 }

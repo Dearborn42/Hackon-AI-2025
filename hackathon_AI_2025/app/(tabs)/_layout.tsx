@@ -61,8 +61,8 @@ export default function TabLayout() {
           tabBarLabelStyle: {
             margin: 0,
             marginTop:6,
-            fontSize: 12,
-            fontWeight: "600",
+            fontSize: 9,
+            fontFamily: "Font",
           }
         }}>
         <Tabs.Screen

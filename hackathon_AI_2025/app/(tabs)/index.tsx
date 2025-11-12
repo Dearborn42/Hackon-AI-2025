@@ -9,16 +9,15 @@ import { Link } from 'expo-router';
 import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 
 export default function HomeScreen() {
-    const iconSize = 48;
+    const iconSize = 80;
   return (
     <ThemedView style={styles.bgContainer}>
       <View style={styles.topBar}>
-        <FontAwesome6 name="fire" size={iconSize} style={styles.icons} />
-        {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
+        {/* <FontAwesome6 name="fire" size={iconSize} style={styles.icons} /> */}
+        <Image source={require('../../assets/images/Fire.png')} style={[styles.icons,{ width: iconSize, height: iconSize }]} />
         <Text style={styles.textHeader}>67</Text>
-      </View>
-      <View style={styles.topBar}>
-        <Text style={styles.textHeader}>Welcome to NeuroArcade!</Text>
+        <Image source={require('../../assets/images/Level.png')} style={[styles.icons,{ width: iconSize, height: iconSize }]}/>
+        <Text style={styles.textHeader}>67</Text>
       </View>
       <Text style={{}}></Text>
     </ThemedView>
@@ -33,21 +32,25 @@ const styles = StyleSheet.create({
   topBar:{
     height:100,
     width:"100%", 
-    backgroundColor:"#028090",
+    backgroundColor:"#0099db",
     flexDirection:"row",
     alignItems:"center",
     paddingLeft:10,
     borderBottomWidth:2,
-    borderBottomColor:"#025964",
+    borderBottomColor:"#007db3",
+    justifyContent:"flex-start"
   },
   textHeader:{
     color:"white",
     fontSize:48,
-    fontWeight:"700",
+    fontFamily:"Font",
+    marginLeft:10,
   },
+
   icons:{
-    color:"white",
+    marginLeft:10,
     marginRight:10,
+
   }
   
 });
