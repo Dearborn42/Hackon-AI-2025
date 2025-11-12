@@ -60,6 +60,7 @@ export default function TabLayout() {
           tabBarButton: (props) => <CustomTabButton {...props} />,
           tabBarLabelStyle: {
             margin: 0,
+            marginTop:6,
             fontSize: 12,
             fontWeight: "600",
           }
