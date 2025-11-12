@@ -11,7 +11,7 @@ import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 export default function HomeScreen() {
     const iconSize = 48;
   return (
-    <View style={styles.bgContainer}>
+    <ThemedView style={styles.bgContainer}>
       <View style={styles.topBar}>
         <FontAwesome6 name="fire" size={iconSize} style={styles.icons} />
         {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
@@ -20,15 +20,20 @@ export default function HomeScreen() {
       <View style={styles.topBar}>
         <Text style={styles.textHeader}>Welcome to NeuroArcade!</Text>
       </View>
+<<<<<<< HEAD
       <Text style={styles.textHeader}></Text>
     </View>
+=======
+      <Text style={styles.text}></Text>
+    </ThemedView>
+>>>>>>> 54c8d9adb208d539aeeae6e1d35ee8a26558c69b
   );
 }
 
 const styles = StyleSheet.create({
   bgContainer: {
     height:"100%",
-    backgroundColor:"white",
+    
   },
   topBar:{
     height:100,
