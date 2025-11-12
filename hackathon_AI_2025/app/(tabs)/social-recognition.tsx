@@ -10,6 +10,7 @@ import { pictureGame } from '@/backend/fetchCalls';
 import FontAwesome6 from '@expo/vector-icons/build/FontAwesome6';
 
 export default function TabSevenScreen() {
+    const [load, setLoad] = useState<boolean>(false);
     const [wrong, setWrong] = useState<boolean>(false);
     const [picture, setPicture] = useState<string>("");
     const [start, setStart] = useState<boolean>(false);
@@ -29,6 +30,7 @@ export default function TabSevenScreen() {
         setStart(true);
     }
     function submitAnswer(quess: string):void{
+        setLoad(false);
         if(quess === ""){
             alert("Pick an option");
             return;
@@ -110,7 +112,24 @@ export default function TabSevenScreen() {
                         </View>
                         
                     </>
-                ) : start ? (<></>) : (
+                ) : start ? (<>
+
+                {
+                    load ? (<>
+                    <Image source={require('../../assets/images/Loading.png')} style={{ width: 200, height: 200, alignSelf:"center", marginTop:"60%"}}/>
+                    <Text style={{fontSize:36, fontWeight:"700", color:"#0099db", alignSelf:"center", marginTop:10}}>Loading...</Text>
+                
+                        </>
+                ) : (
+                    <>
+                    <Image source={require('../../assets/images/Correct.png')} style={{ width: 200, height: 200, alignSelf:"center", marginTop:"60%"}}/>
+
+                    <Text style={{fontSize:36, fontWeight:"700", color:"#0099db", alignSelf:"center", marginTop:10}}>Correct!</Text>
+                    </>
+                )
+                }
+
+                </>) : (
                     <View style={styles.tutorialContainer}>
                         <View style={styles.textContainer}>
                             <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
@@ -119,7 +138,10 @@ export default function TabSevenScreen() {
                             <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a new face and more options!</Text>
                             <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
                         </View>
-                        <TouchableOpacity style={styles.startButton} onPress={()=>setStart(true)}>
+                        <TouchableOpacity style={styles.startButton} onPress={() => { 
+                            setStart(true);
+                            setLoad(true);     
+                            }}>
                             <Text style={styles.text}>Start Game</Text>
                         </TouchableOpacity>
                     </View>
@@ -147,7 +169,7 @@ const styles = StyleSheet.create({
         alignItems:"center",
     },
     wrong:{
-        color:"#028090",
+        color:"#0099db",
         fontSize:24,
         fontWeight:"700",
         textAlign:"center",
@@ -155,8 +177,8 @@ const styles = StyleSheet.create({
     },
     selected:{
         color:"white",
-        borderColor:"#025964",
-        backgroundColor:"#028090",
+        borderColor:"#007db3",
+        backgroundColor:"#0099db",
     },
     tutorialContainer:{
     justifyContent:"center",
@@ -166,12 +188,12 @@ const styles = StyleSheet.create({
   tutorialText:{
     fontSize:24,
     fontWeight:"700",
-    color:"#028090",
+    color:"#0099db",
   },
   tutorialTextHeader:{
     fontSize:30,
     fontWeight:"700",
-    color:"#028090",
+    color:"#0099db",
   },
     textContainer:{
     justifyContent:"center",
@@ -230,12 +252,12 @@ const styles = StyleSheet.create({
   text: {
     fontSize: 24,
     fontWeight: "700",
-    color: "#028090",
+    color: "#0099db",
   },
   optionsText: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#028090",
+    color: "#0099db",
   },
   bgContainer: {
     height:"100%",
@@ -244,12 +266,12 @@ const styles = StyleSheet.create({
   topBar:{
     height:100,
     width:"100%", 
-    backgroundColor:"#028090",
+    backgroundColor:"#0099db",
     flexDirection:"row",
     alignItems:"center",
     paddingLeft:10,
     borderBottomWidth:2,
-    borderBottomColor:"#025964",
+    borderBottomColor:"#007db3",
   },
   icons:{
     color:"white",

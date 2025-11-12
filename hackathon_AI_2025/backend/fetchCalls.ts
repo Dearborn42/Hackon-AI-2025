@@ -178,7 +178,7 @@ export async function gradeSentence(inputSentence: string, answerSentence: strin
     console.log(inputSentence, answerSentence)
     const response = await ai.models.generateContent({
       model: "gemini-2.5-flash",
-      contents: `Respond with true or false, nothing else if the following sentence: ${inputSentence} is relatively the same: ${answerSentence}  `,
+      contents: `Respond with true or false, nothing else if the following sentence: ${inputSentence} is relatively the same or has the general meaning as: ${answerSentence}  (Be somewhat lenient especially with spelling errors or bad grammar)`,
     });
     const text = response.text ?? "No content generated"; // fallback if undefined
     console.log(text)

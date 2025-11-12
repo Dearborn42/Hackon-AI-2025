@@ -1,4 +1,4 @@
-import { Button, StyleSheet, TextInput, View } from 'react-native';
+import { Button, StyleSheet, TextInput, View,TouchableOpacity } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -10,7 +10,7 @@ import { useSettings } from '@/components/settings-context';
 
 
 export default function TabFiveScreen() {
-
+  const [start,setStart] = useState<boolean>(false);
   const [textToSpeech, setTextToSpeech] = useState('');
   const [answer, setAnswer] = useState('');
   const [sentence, setSentence] = useState(getRandomSentence());
@@ -87,6 +87,22 @@ export default function TabFiveScreen() {
       <View style={styles.topBar}>
         <Text style={styles.text}>Audio Game</Text>
       </View>
+      {start==false && 
+      <View style={styles.tutorialContainer}>
+          <View style={styles.textContainer}>
+              <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
+              <Text style={styles.tutorialText}>1. You will be given audio to listen to.</Text>
+              <Text style={styles.tutorialText}>2. Enter the main point of the sentence as well as possible.</Text>
+              <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a new sentence!</Text>
+              <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
+          </View>
+          <TouchableOpacity style={styles.startButton} onPress={()=>setStart(true)}>
+              <Text style={styles.tutorialText}>Start Game</Text>
+          </TouchableOpacity>
+      </View>
+      }
+      {start && <>
+      
       <View style={styles.centerContainer}>
         <ThemedText>{instructions}</ThemedText>
         <TextInput
@@ -101,6 +117,8 @@ export default function TabFiveScreen() {
           <Button title="Listen" onPress={speakText} />
         </View>
       </View>
+      </>
+    }
     </ThemedView>
   );
 
@@ -110,20 +128,23 @@ const styles = StyleSheet.create({
   topBar: {
     height: 100,
     width: "100%",
-    backgroundColor: "#028090",
+    backgroundColor: "#0099db",
     flexDirection: "row",
     alignItems: "center",
     paddingLeft: 10,
     borderBottomWidth: 2,
-    borderBottomColor: "#025964",
+    borderBottomColor: "#007db3",
   },
   text: {
     color: "white",
     fontSize: 48,
     fontWeight: "700",
   },
-
-
+  tutorialContainer:{
+    justifyContent:"center",
+    alignItems:"center",
+    flex:1,
+  }, 
   centerContainer: {
     flex: 1,
     justifyContent: "center",
@@ -145,6 +166,29 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-
+tutorialText:{
+    fontSize:24,
+    fontWeight:"700",
+    color:"#0099db",
+  },
+  tutorialTextHeader:{
+    fontSize:30,
+    fontWeight:"700",
+    color:"#0099db",
+  },
+    textContainer:{
+    justifyContent:"center",
+    marginBottom:20,
+    paddingHorizontal:20,
+  },   
+  startButton:{
+    borderWidth:2,  
+    borderColor:"#a6a6a6",
+    paddingVertical:10,
+    width:"75%",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:10,
+  }
 });
 

@@ -45,7 +45,7 @@ export default function TabLayout() {
 
       <Tabs
         screenOptions={{
-          tabBarActiveTintColor: "#028090",
+          tabBarActiveTintColor: "#0099db",
           tabBarInactiveTintColor: "#a6a6a6",
 
           headerShown: false,
@@ -53,7 +53,7 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: theme,
             outline: "none",
-            borderColor: "#028090",
+            borderColor: "#0099db",
             borderTopWidth: 2,
             height: 80,
           },
@@ -130,7 +130,7 @@ export default function TabLayout() {
 }
 const styles = StyleSheet.create({
   icons: {
-    color: "#028090",
+    color: "#0099db",
   },
   buttonContainer: {
     flex: 1,
