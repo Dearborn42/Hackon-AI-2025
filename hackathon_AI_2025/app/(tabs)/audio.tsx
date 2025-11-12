@@ -1,13 +1,9 @@
-import { Image } from 'expo-image';
-import { Button, Platform, StyleSheet, TextInput, View } from 'react-native';
+import { Button, StyleSheet, TextInput, View } from 'react-native';
 import React, { useEffect, useState } from 'react';
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 import { Text } from 'react-native';
 import * as Speech from 'expo-speech'
-import { Label } from '@react-navigation/elements';
 import { getRandomSentence, gradeSentence } from "../../backend/fetchCalls"
 import { useAudioPlayer } from 'expo-audio';
 import { useSettings } from '@/components/settings-context';
@@ -22,10 +18,6 @@ export default function TabFiveScreen() {
   const { settings } = useSettings(); 
 
   const volume = settings.volume / 100;
-
-
-
-
 
   const players = [useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")), useAudioPlayer(require("../../sounds/backgroundnoise2.mp3"))];
 
@@ -81,7 +73,7 @@ export default function TabFiveScreen() {
 
   useEffect(() => {
     setTextToSpeech(sentence)
-  })
+  }, []);
 
   async function submitAnswer() {
     setInstructions("Grading...")
@@ -105,7 +97,7 @@ export default function TabFiveScreen() {
         />
         <View style={styles.buttonRow}>
           <Button title="Submit" onPress={submitAnswer} />
-          <View style={{ width: 20 }} /> {/* spacing between buttons */}
+          <View style={{ width: 20 }} />
           <Button title="Listen" onPress={speakText} />
         </View>
       </View>
