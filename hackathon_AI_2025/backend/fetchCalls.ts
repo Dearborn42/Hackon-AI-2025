@@ -188,3 +188,22 @@ export async function gradeSentence(inputSentence: string, answerSentence: strin
     throw error;
   }
 }
+
+// memory game
+
+
+export async function giveTip(lost: boolean): Promise<string> {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `Give the player a motivating speech for memory and memory game. The fact that player lost is ${lost} Make it one very short sentence.`,
+    });
+    const text = response.text ?? "No content generated"; 
+    console.log(text);
+    return text;
+  } catch (error) {
+    console.error("Error generating content:", error);
+    throw error;
+  }
+
+}

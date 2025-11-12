@@ -2,6 +2,7 @@ import { FlatList, StyleSheet, TouchableOpacity, View, Text, Button, Dimensions 
 import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
 import { useState } from 'react';
+import { giveTip } from '@/backend/fetchCalls';
 
 
 
@@ -9,9 +10,14 @@ export default function TabThreeScreen() {
     const [pattern, setPattern] = useState<number[]>([0, 1, 1, 0, 0, 1, 1, 0]);
     const [pressedIndexes, setPressedIndexes] = useState<number[]>([]);
     const [inGame, setInGame] = useState(false);
+    const [tip, setTip] = useState('This is a tip')
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
+
+    async function giveTips(lost: boolean) {
+        setTip(await giveTip(lost));
+    }
 
     const showPattern = async () => {
         setPressedIndexes([]);
@@ -26,36 +32,38 @@ export default function TabThreeScreen() {
 
     const startGame = async () => {
         if (inGame) return;
-  
+
         await showPattern();
         setInGame(true);
     };
 
-    function reset() {
+    function reset(lost: boolean) {
         setPattern([Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)])
         setPressedIndexes([]);
         setInGame(false);
+        giveTips(lost)
+
     }
 
     const handlePress = (index: number) => {
-            const newPressed = [...pressedIndexes, index];
-            setPressedIndexes(newPressed);
+        const newPressed = [...pressedIndexes, index];
+        setPressedIndexes(newPressed);
 
-            if (pattern[index] === 0) {
-                setTimeout(() => reset(), 500);
-                
-                alert("You lost :( try again");
-                return;
-            }
+        if (pattern[index] === 0) {
+            setTimeout(() => reset(true), 500);
 
-            const allRight =
-                newPressed.filter(i => pattern[i] === 1).length === pattern.filter(v => v === 1).length &&
-                newPressed.every(i => pattern[i] === 1);
+            alert("You lost :( try again");
+            return;
+        }
 
-            if (allRight) {
-                alert("You got it!");
-                reset();
-            }
+        const allRight =
+            newPressed.filter(i => pattern[i] === 1).length === pattern.filter(v => v === 1).length &&
+            newPressed.every(i => pattern[i] === 1);
+
+        if (allRight) {
+            alert("You got it!");
+            reset(false);
+        }
 
     };
 
@@ -80,7 +88,7 @@ export default function TabThreeScreen() {
             <View style={styles.topBar}>
                 <ThemedText style={styles.text}>Memory Game</ThemedText>
             </View>
-
+            <ThemedText style = {styles.text}>{tip}</ThemedText>
             <FlatList
                 data={pattern}
                 keyExtractor={(_, index) => index.toString()}

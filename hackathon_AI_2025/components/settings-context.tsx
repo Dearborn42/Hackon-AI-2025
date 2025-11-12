@@ -39,7 +39,7 @@ async function getFromStorage(key: string) {
   if (Platform.OS === 'web') {
     result = localStorage.getItem(key);
   } else {
-    result = await SecureStore.getItemAsync(key);
+    result = await SecureStore.getItemAsync(key); 
   }
 
   if (result === null) return null;
