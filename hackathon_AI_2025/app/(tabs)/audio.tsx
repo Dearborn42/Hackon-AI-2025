@@ -21,7 +21,7 @@ export default function TabFiveScreen() {
 
   const volume = settings.volume / 100;
 
-  const players = [useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")), useAudioPlayer(require("../../sounds/backgroundnoise2.mp3"))];
+  const players = [useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")), useAudioPlayer(require("../../sounds/backgroundnoise2.mp3")),useAudioPlayer(require("../../sounds/backgroundnoise3.mp3"))];
 
   async function isSpeaking(): Promise<boolean> {
     return await Speech.isSpeakingAsync();
