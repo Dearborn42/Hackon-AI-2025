@@ -103,7 +103,7 @@ export async function pictureGame(type: number): Promise<PictureGameResult> {
     // Generate one image
     const emotionOptions: string[] = getFourRandomEmotions(type);
     console.log(emotionOptions);
-    const genPrompt = `Give the face of a ${emotionOptions[0]} person`;
+    const genPrompt = `Give the face of a person with the emotion ${emotionOptions[0]} `;
 
     const response = await ai.models.generateImages({
       model: 'models/imagen-4.0-generate-001',
