@@ -15,12 +15,12 @@ export default function HomeScreen() {
       <View style={styles.topBar}>
         <FontAwesome6 name="fire" size={iconSize} style={styles.icons} />
         {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
-        <Text style={styles.text}>67</Text>
+        <Text style={styles.textHeader}>67</Text>
       </View>
       <View style={styles.topBar}>
-        <Text style={styles.text}>Welcome to duolingo</Text>
+        <Text style={styles.textHeader}>Welcome to NeuroArcade!</Text>
       </View>
-      <Text style={styles.text}></Text>
+      <Text style={styles.textHeader}></Text>
     </View>
   );
 }
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     borderBottomWidth:2,
     borderBottomColor:"#025964",
   },
-  text:{
+  textHeader:{
     color:"white",
     fontSize:48,
     fontWeight:"700",

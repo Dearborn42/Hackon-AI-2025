@@ -53,7 +53,7 @@ export default function TabLayout() {
           tabBarStyle: {
             backgroundColor: theme,
             outline: "none",
-            borderColor: "#d9d9d9",
+            borderColor: "#028090",
             borderTopWidth: 2,
             height: 80,
           },
@@ -91,9 +91,9 @@ export default function TabLayout() {
           }}
         /> */}
         <Tabs.Screen
-          name="visual"
+          name="social-recognition"
           options={{
-            title: 'Visual',
+            title: 'Social Cues',
             // tabBarIcon: () => <FontAwesome6 name="eye" size={iconSize} style={styles.icons} />,
             tabBarIcon: () => <Image source={require('../../assets/images/Eye.png')} style={{ width: iconSize, height: iconSize}}/>
           }}
