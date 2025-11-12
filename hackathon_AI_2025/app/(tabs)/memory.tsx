@@ -7,7 +7,8 @@ import { giveTip } from '@/backend/fetchCalls';
 
 
 export default function TabThreeScreen() {
-    const [pattern, setPattern] = useState<number[]>([0, 1, 1, 0, 0, 1, 1, 0]);
+    const [start, setStart] = useState<boolean>(false);
+    const [pattern, setPattern] = useState<number[]>([0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0]);
     const [pressedIndexes, setPressedIndexes] = useState<number[]>([]);
     const [inGame, setInGame] = useState(false);
     const [tip, setTip] = useState('This is a tip')
@@ -38,7 +39,7 @@ export default function TabThreeScreen() {
     };
 
     function reset(lost: boolean) {
-        setPattern([Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)])
+        setPattern([Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2),Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)])
         setPressedIndexes([]);
         setInGame(false);
         giveTips(lost)
@@ -75,7 +76,7 @@ export default function TabThreeScreen() {
                 disabled={!inGame}
                 style={[
                     styles.button,
-                    { backgroundColor: isPressed ? (item === 1 ? 'blue' : 'red') : 'gray' },
+                    { backgroundColor: isPressed ? (item === 1 ? '#0099db' : '#a22633') : '#a6a6a6' },
                 ]}
             >
                 <Text style={styles.buttonText}></Text>
@@ -83,64 +84,132 @@ export default function TabThreeScreen() {
         );
     };
 
-    return (
-        <ThemedView style={styles.container}>
-            <View style={styles.topBar}>
-                <ThemedText style={styles.text}>Memory Game</ThemedText>
-            </View>
+    return (<>
+        <View style={styles.topBar}>
+                <ThemedText style={styles.textHeader}>Memory Game</ThemedText>
+        </View>
+    <ThemedView style={styles.container}>
+        
+        {
+        start==false ? (<>
+        <View style={styles.tutorialContainer}>
+                  <View style={styles.textContainer}>
+                      <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
+                      <Text style={styles.tutorialText}>1. You will be given a pattern to memorize with BLUE being correct and RED being incorrect.</Text>
+                      <Text style={styles.tutorialText}>2. Repeat the pattern by pressing the buttons in the correct order.</Text>
+                      <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a pattern!</Text>
+                      <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
+                  </View>
+                  <TouchableOpacity style={styles.startButton} onPress={()=>setStart(true)}>
+                      <Text style={styles.tutorialText}>Start Game</Text>
+                  </TouchableOpacity>
+              </View>
+        </>) : 
+        (
+            <>
+            
             <ThemedText style = {styles.text}>{tip}</ThemedText>
+            <View>
             <FlatList
                 data={pattern}
                 keyExtractor={(_, index) => index.toString()}
                 renderItem={renderItem}
                 numColumns={4}
-                contentContainerStyle={styles.grid}
+                scrollEnabled={false}
+                contentContainerStyle={[styles.grid,{flexGrow:0}]}
             />
-
-            <Button title="Start Game" onPress={startGame} disabled={inGame} />
+            </View>
+            
+            <TouchableOpacity style={styles.startButton} onPress={startGame} disabled={inGame}>
+                <Text style={styles.tutorialText}>Play Pattern</Text>
+            </TouchableOpacity>
+            </>
+        )
+        }
         </ThemedView>
+    </>
+        
     );
 }
 
 
 
 const styles = StyleSheet.create({
+     textContainer:{
+    justifyContent:"center",
+    marginBottom:20,
+    paddingHorizontal:20,
+  },   
+  startButton:{
+    borderWidth:2,  
+    borderColor:"#a6a6a6",
+    paddingVertical:10,
+    width:"75%",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:10,
+    fontFamily:"Font",
+  }, tutorialContainer:{
+    justifyContent:"center",
+    alignItems:"center",
+    flex:1,
+  },
+    tutorialText:{
+    fontSize:16,
+    color:"#0099db",
+    fontFamily:"Font",
+  },
+  tutorialTextHeader:{
+    fontSize:22,
+    color:"#0099db",
+    fontFamily:"Font",
+
+  },
     container: {
-        flex: 1,
         alignItems: 'center',
-        justifyContent: 'flex-start',
+        flex: 1,
+        justifyContent: 'center',
     },
+
     topBar: {
         height: 100,
         width: '100%',
-        backgroundColor: '#028090',
+        backgroundColor: '#0099db',
         flexDirection: 'row',
         alignItems: 'center',
         paddingLeft: 10,
         borderBottomWidth: 2,
-        borderBottomColor: '#025964',
-        marginBottom: 20,
+        borderBottomColor: '#007db3',
     },
     text: {
+        color: '#0099db',
+        fontSize:24,
+        fontFamily: "Font",
+        alignSelf: 'center',
+        padding:20,
+    },
+    textHeader: {
         color: 'white',
-        fontSize: 36,
-        fontWeight: '700',
+        fontSize:40,
+        fontFamily: "Font",
     },
     button: {
-        width: 100,
-        height: 100,
+        width: 80,
+        height: 80,
         margin: 5,
         borderRadius: 10,
         alignItems: 'center',
         justifyContent: 'center',
     },
     buttonText: {
-        color: 'white',
+        color: '#0099db',
         fontWeight: 'bold',
-        fontSize: 18,
+        fontSize: 10,
+        fontFamily: "Font",
+
     },
     grid: {
-        justifyContent: 'center',
-        alignItems: 'center',
+        width:"95%",
+        marginBottom:20
     },
 });
