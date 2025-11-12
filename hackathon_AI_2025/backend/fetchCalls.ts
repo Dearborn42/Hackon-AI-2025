@@ -1,7 +1,7 @@
-import { GoogleGenAI, PersonGeneration  } from "@google/genai";
+import { GoogleGenAI, PersonGeneration } from "@google/genai";
 import * as base64js from 'base64-js';
 import * as path from "node:path";
-const ai = new GoogleGenAI({apiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY2});
+const ai = new GoogleGenAI({ apiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY2 });
 
 const emotions: string[] = [
   "Happiness",
@@ -58,37 +58,61 @@ const emotions: string[] = [
 ];
 
 
-export async function main():Promise<string> {
-    try{
-        const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
-            contents: "Explain how AI works in a few words",
-        });
-        const text = response.text ?? "No content generated"; // fallback if undefined
-        console.log(text);
-        return text;
-    }catch(error){
-        console.error("Error generating content:", error);
-        throw error;
-    }
-  
+const randomSentences: string[] = [
+  "The cat jumped over the fence without any hesitation.",
+  "She whispered secrets only the moon could truly understand.",
+  "Raindrops danced lightly on the old wooden rooftop.",
+  "He carried the heavy bag across the crowded street.",
+  "Birds sang melodies that echoed through the quiet forest.",
+  "The glowing lantern guided them through the dark tunnel.",
+  "She found a mysterious key under the dusty carpet.",
+  "They laughed together, forgetting all their past disagreements.",
+  "A sudden gust of wind scattered papers everywhere.",
+  "He wrote letters he never intended to send.",
+  "The bakery smelled like warm bread and sweet cinnamon.",
+  "Lightning flashed, illuminating the abandoned house on the hill.",
+  "She painted dreams that nobody else could ever see.",
+  "The clock ticked loudly in the empty room.",
+  "He rescued the tiny bird from the storm.",
+  "Waves crashed against the rocks under the fading sunset.",
+  "The garden bloomed with colors she had never imagined.",
+  "He opened the old book, releasing forgotten stories inside.",
+  "The streets were empty, silent under the pale moonlight.",
+  "She danced alone, letting the music fill her soul."
+];
+
+
+export async function main(): Promise<string> {
+  try {
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: "Explain how AI works in a few words",
+    });
+    const text = response.text ?? "No content generated"; // fallback if undefined
+    console.log(text);
+    return text;
+  } catch (error) {
+    console.error("Error generating content:", error);
+    throw error;
+  }
+
 }
 
 
 
 function getFourRandomEmotions(numOfOptions: number): string[] {
-    const selected: string[] = [];
-    const usedIndices = new Set<number>();
+  const selected: string[] = [];
+  const usedIndices = new Set<number>();
 
-    while (selected.length < numOfOptions) {
-        const randomIndex = Math.floor(Math.random() * emotions.length);
-        if (!usedIndices.has(randomIndex)) {
-            usedIndices.add(randomIndex);
-            selected.push(emotions[randomIndex]);
-        }
+  while (selected.length < numOfOptions) {
+    const randomIndex = Math.floor(Math.random() * emotions.length);
+    if (!usedIndices.has(randomIndex)) {
+      usedIndices.add(randomIndex);
+      selected.push(emotions[randomIndex]);
     }
+  }
 
-    return selected;
+  return selected;
 }
 type PictureGameResult = {
   result: boolean;
@@ -139,5 +163,28 @@ export async function pictureGame(type: number): Promise<PictureGameResult> {
   } catch (error) {
     console.error('Error generating image:', error);
     return { result: false, error };
+  }
+}
+
+//audio game
+
+export function getRandomSentence(): string {
+  const rand = Math.floor(Math.random() * (0 - randomSentences.length + 1)) + randomSentences.length;
+  return randomSentences[rand];
+}
+
+export async function gradeSentence(inputSentence: string, answerSentence: string) {
+  try {
+    console.log(inputSentence, answerSentence)
+    const response = await ai.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: `Respond with true or false, nothing else if the following sentence: ${inputSentence} is relatively the same: ${answerSentence}  `,
+    });
+    const text = response.text ?? "No content generated"; // fallback if undefined
+    console.log(text)
+    return text.toLowerCase() == "true";
+  } catch (error) {
+    console.error("Error generating content:", error);
+    throw error;
   }
 }

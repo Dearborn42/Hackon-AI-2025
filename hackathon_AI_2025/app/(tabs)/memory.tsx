@@ -23,7 +23,7 @@ export default function TabThreeScreen() {
             />
         }>
         <ThemedView style={styles.titleContainer}>
-            <ThemedText type="title">{test}</ThemedText>
+            <ThemedText>{test}</ThemedText>
             <HelloWave />
         </ThemedView>
         {/* <ThemedView style={styles.stepContainer}>

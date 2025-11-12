@@ -48,7 +48,6 @@ export default function TabSixScreen() {
           onChange={item => saveSetting('voice', item.value)}
         />
 
-        {/* Theme */}
         <ThemedText style={[styles.textBody, { color: textColor }]}>Theme</ThemedText>
         <Dropdown
           data={[
@@ -73,7 +72,6 @@ export default function TabSixScreen() {
           onChange={item => saveSetting('theme', item.value)}
         />
 
-        {/* Volume */}
         <ThemedText style={[styles.textBody, { color: textColor }]}>Game Volume</ThemedText>
         <Slider
           value={settings.volume}

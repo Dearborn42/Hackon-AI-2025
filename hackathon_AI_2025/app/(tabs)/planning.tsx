@@ -18,7 +18,7 @@ export default function TabFourScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Planning game</ThemedText>
+        <ThemedText>Planning game</ThemedText>
         <HelloWave />
       </ThemedView>
       {/* <ThemedView style={styles.stepContainer}>

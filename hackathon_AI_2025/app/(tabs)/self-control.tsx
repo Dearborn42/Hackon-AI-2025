@@ -18,7 +18,7 @@ export default function TabSixScreen() {
         />
       }>
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Self-control game/help</ThemedText>
+        <ThemedText>Self-control game/help</ThemedText>
         <HelloWave />
       </ThemedView>
       {/* <ThemedView style={styles.stepContainer}>
