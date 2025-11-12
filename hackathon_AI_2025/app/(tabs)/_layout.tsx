@@ -1,7 +1,7 @@
 import { Tabs } from 'expo-router';
 import React from 'react';
 import { BottomTabBarButtonProps } from '@react-navigation/bottom-tabs';
-import { Platform, StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, View, Text, TouchableOpacity,Image } from 'react-native';
 
 import { HapticTab } from '@/components/haptic-tab';
 import { Colors } from '@/constants/theme';
@@ -22,7 +22,7 @@ function CustomTabButton({ children, onPress }: BottomTabBarButtonProps) {
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
-  const iconSize = 24;
+  const iconSize = 36;
 
   const { settings } = useSettings();
 
@@ -68,52 +68,59 @@ export default function TabLayout() {
           name="index"
           options={{
             title: 'Home',
-            tabBarIcon: () =>
-              <FontAwesome6 name="house-chimney" size={iconSize} style={styles.icons} />
+            // tabBarIcon: () =>
+            //   <FontAwesome6 name="house-chimney" size={iconSize} style={styles.icons} />
+            tabBarIcon: () => <Image source={require('../../assets/images/House.png')} style={{ width: iconSize, height: iconSize}}/>
+
           }}
         />
         <Tabs.Screen
           name="memory"
           options={{
             title: 'Memory',
-            tabBarIcon: () => <FontAwesome6 name="brain" size={iconSize} style={styles.icons} />,
+            // tabBarIcon: () => <FontAwesome6 name="brain" size={iconSize} style={styles.icons} />,
+            tabBarIcon: () => <Image source={require('../../assets/images/Brain.png')} style={{ width: iconSize, height: iconSize}}/>
           }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="planning"
           options={{
             title: 'Planning',
             tabBarIcon: () => <FontAwesome6 name="calendar-check" size={iconSize} style={styles.icons} />,
+          }}
+        /> */}
+        <Tabs.Screen
+          name="visual"
+          options={{
+            title: 'Visual',
+            // tabBarIcon: () => <FontAwesome6 name="eye" size={iconSize} style={styles.icons} />,
+            tabBarIcon: () => <Image source={require('../../assets/images/Eye.png')} style={{ width: iconSize, height: iconSize}}/>
           }}
         />
         <Tabs.Screen
           name="audio"
           options={{
             title: 'Audio',
-            tabBarIcon: () => <MaterialIcons name="multitrack-audio" size={iconSize} style={styles.icons} />,
+            // tabBarIcon: () => <MaterialIcons name="multitrack-audio" size={iconSize} style={styles.icons} />,
+            tabBarIcon: () => <Image source={require('../../assets/images/Audio.png')} style={{ width: iconSize, height: iconSize}}/>
           }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="self-control"
           options={{
             title: 'Self-Control',
             tabBarIcon: () => <FontAwesome6 name="face-laugh-beam" size={iconSize} style={styles.icons} />,
           }}
-        />
+        /> */}
         <Tabs.Screen
           name="settings"
           options={{
             title: 'Settings',
-            tabBarIcon: () => <FontAwesome6 name="gear" size={iconSize} style={styles.icons} />,
+            // tabBarIcon: () => <FontAwesome6 name="gear" size={iconSize} style={styles.icons} />,
+            tabBarIcon: () => <Image source={require('../../assets/images/Gear.png')} style={{ width: iconSize, height: iconSize}}/>
           }}
         />
-        <Tabs.Screen
-          name="visual"
-          options={{
-            title: 'Visual',
-            tabBarIcon: () => <FontAwesome6 name="eye" size={iconSize} style={styles.icons} />,
-          }}
-        />
+        
       </Tabs>
 
 
