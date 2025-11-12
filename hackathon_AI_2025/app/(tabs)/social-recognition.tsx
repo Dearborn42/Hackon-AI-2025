@@ -78,9 +78,7 @@ export default function TabSevenScreen() {
                 <Text style={styles.textHeader}>Social Cues</Text>
             </View>
             {wrong && 
-                <View style={styles.wrongContainer}>
-                    <Text style={styles.wrong}>Wrong Answer! Try Again.</Text>
-                </View>
+                    <Image source={require('../../assets/images/Wrong.png')} style={styles.wrong}/>
             }
             <View style={styles.container}>
             {
@@ -117,14 +115,14 @@ export default function TabSevenScreen() {
                 {
                     load ? (<>
                     <Image source={require('../../assets/images/Loading.png')} style={{ width: 200, height: 200, alignSelf:"center", marginTop:"60%"}}/>
-                    <Text style={{fontSize:36, fontWeight:"700", color:"#0099db", alignSelf:"center", marginTop:10}}>Loading...</Text>
+                    <Text style={{fontSize:28,fontFamily:"Font", color:"#0099db", alignSelf:"center", marginTop:10}}>Loading...</Text>
                 
                         </>
                 ) : (
                     <>
                     <Image source={require('../../assets/images/Correct.png')} style={{ width: 200, height: 200, alignSelf:"center", marginTop:"60%"}}/>
 
-                    <Text style={{fontSize:36, fontWeight:"700", color:"#0099db", alignSelf:"center", marginTop:10}}>Correct!</Text>
+                    <Text style={{fontSize:28,fontFamily:"Font",  color:"#0099db", alignSelf:"center", marginTop:10}}>Correct!</Text>
                     </>
                 )
                 }
@@ -153,27 +151,13 @@ export default function TabSevenScreen() {
 }
 
 const styles = StyleSheet.create({
-    wrongContainer:{
-        margin:0,
-        position:"absolute",
-        top:"50%",
-        zIndex:100,
-        backgroundColor:"white",
-        borderWidth:2,
-        borderColor:"#a6a6a6",
-        borderRadius:10,
-        padding:10,
-        paddingVertical:20,
-        alignSelf:"center",
-        justifyContent:"center",
-        alignItems:"center",
-    },
     wrong:{
-        color:"#0099db",
-        fontSize:24,
-        fontWeight:"700",
-        textAlign:"center",
-        marginTop:10,
+        height:200,
+        width:200,
+        position:"absolute",
+        top:"30%",
+        left:"25%",
+        zIndex:10,
     },
     selected:{
         color:"white",
@@ -186,14 +170,15 @@ const styles = StyleSheet.create({
     flex:1,
   }, 
   tutorialText:{
-    fontSize:24,
-    fontWeight:"700",
+    fontSize:16,
+    fontFamily:"Font",
     color:"#0099db",
   },
   tutorialTextHeader:{
-    fontSize:30,
-    fontWeight:"700",
-    color:"#0099db",
+    fontSize:22,
+    color:"#0099db",    
+    fontFamily:"Font",
+
   },
     textContainer:{
     justifyContent:"center",
@@ -250,13 +235,13 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   text: {
-    fontSize: 24,
-    fontWeight: "700",
+    fontSize: 16,
+    fontFamily:"Font",
     color: "#0099db",
   },
   optionsText: {
-    fontSize: 20,
-    fontWeight: "700",
+    fontSize: 12,
+    fontFamily:"Font",
     color: "#0099db",
   },
   bgContainer: {
@@ -279,7 +264,7 @@ const styles = StyleSheet.create({
   },
   textHeader:{
     color:"white",
-    fontSize:48,
-    fontWeight:"700",
+    fontSize:40,
+    fontFamily:"Font",
   },
 });

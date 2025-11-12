@@ -1,4 +1,4 @@
-import { Button, StyleSheet, TextInput, View,TouchableOpacity } from 'react-native';
+import { Button, StyleSheet, TextInput, View,TouchableOpacity,Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -10,6 +10,8 @@ import { useSettings } from '@/components/settings-context';
 
 
 export default function TabFiveScreen() {
+  const [correct,setCorrect] = useState<boolean>(false);
+  const [wrong,setWrong] = useState<boolean>(false);
   const [start,setStart] = useState<boolean>(false);
   const [textToSpeech, setTextToSpeech] = useState('');
   const [answer, setAnswer] = useState('');
@@ -77,9 +79,22 @@ export default function TabFiveScreen() {
 
   async function submitAnswer() {
     setInstructions("Grading...")
-    await gradeSentence(answer, sentence) == true ? alert("Correct!") : alert("Not Correct :(")
-    changeSentence()
-    setInstructions("Press listen and enter your answer below")
+    await gradeSentence(answer, sentence) == true ? (
+      setCorrect(true),
+      setInstructions("Correct!"),
+      setTimeout(() => {
+        setCorrect(false);
+        changeSentence();
+        setInstructions("Press listen and enter your answer below");
+      }, 2000)
+    ) : (
+      setWrong(true),
+      setInstructions("Incorrect! Try again."),
+      setTimeout(() => {
+        setWrong(false);
+        setInstructions("Press listen and enter your answer below")
+      }, 2000)
+    )
   }
 
   return (
@@ -104,7 +119,16 @@ export default function TabFiveScreen() {
       {start && <>
       
       <View style={styles.centerContainer}>
-        <ThemedText>{instructions}</ThemedText>
+        {
+            correct && (<Image source={require('../../assets/images/Correct.png')} style={styles.icons} />)
+        }
+        {
+            !correct && !wrong&& (<Image source={require('../../assets/images/Sound.png')} style={styles.icons} />)
+        }
+        {
+            wrong && (<Image source={require('../../assets/images/Wrong.png')} style={styles.icons} />)
+        }
+        <ThemedText style={styles.tutorialText}>{instructions}</ThemedText>
         <TextInput
           value={answer}
           style={styles.textInput}
@@ -112,9 +136,12 @@ export default function TabFiveScreen() {
           placeholder='Enter Answer'
         />
         <View style={styles.buttonRow}>
-          <Button title="Submit" onPress={submitAnswer} />
-          <View style={{ width: 20 }} />
-          <Button title="Listen" onPress={speakText} />
+          <TouchableOpacity style={styles.box} onPress={speakText}>
+            <Text style={styles.tutorialText}>Listen</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.box} onPress={submitAnswer}>
+            <Text style={styles.tutorialText}>Submit</Text>
+          </TouchableOpacity>
         </View>
       </View>
       </>
@@ -125,6 +152,22 @@ export default function TabFiveScreen() {
 }
 
 const styles = StyleSheet.create({
+  icons:{
+    width:200,
+    height:200,
+    marginBottom:20,
+  },
+   box: {
+    borderWidth:2,  
+    borderColor:"#a6a6a6",
+    paddingVertical:10,
+    width:"75%",
+    justifyContent:"center",
+    alignItems:"center",
+    borderRadius:10,
+    fontFamily:"Font",
+    marginHorizontal:15,
+  },
   topBar: {
     height: 100,
     width: "100%",
@@ -137,8 +180,9 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontSize: 48,
-    fontWeight: "700",
+    fontSize: 40,
+    fontFamily:"Font",
+
   },
   tutorialContainer:{
     justifyContent:"center",
@@ -152,14 +196,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   textInput: {
-    width: "60%", // reduced width
+    width: "95%", // reduced width
     height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
+    backgroundColor:"white",
+    borderWidth:2,
+    borderColor:"#a6a6a6",
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 20,
-    backgroundColor: "white",
+    fontFamily:"Font",
+    color:"#0099db",
   },
   buttonRow: {
     flexDirection: 'row',
@@ -167,14 +213,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
 tutorialText:{
-    fontSize:24,
-    fontWeight:"700",
+    fontSize:16,
     color:"#0099db",
+    fontFamily:"Font",
   },
   tutorialTextHeader:{
-    fontSize:30,
-    fontWeight:"700",
+    fontSize:22,
     color:"#0099db",
+    fontFamily:"Font",
+
   },
     textContainer:{
     justifyContent:"center",
@@ -189,6 +236,8 @@ tutorialText:{
     justifyContent:"center",
     alignItems:"center",
     borderRadius:10,
+    fontFamily:"Font",
+
   }
 });
 

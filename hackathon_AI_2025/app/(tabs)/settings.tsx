@@ -10,7 +10,7 @@ export default function TabSixScreen() {
 
   const isLight = settings.theme === 'light';
   const bgColor = isLight ? '#FFFFFF' : '#1C1C1E';
-  const textColor = isLight ? '#1C1C1E' : '#FFFFFF';
+  const textColor = isLight ? '#0099db' : '#0099db';
   const borderColor = isLight ? '#CCCCCC' : '#444444';
   const dropdownBg = isLight ? '#F5F5F5' : '#2C2C2E';
   const placeholderColor = isLight ? '#666666' : '#AAAAAA';
@@ -79,9 +79,9 @@ export default function TabSixScreen() {
           style={{ width: "100%", height: 40 }}
           minimumValue={0}
           maximumValue={100}
-          minimumTrackTintColor={isLight ? '#000000' : '#FFFFFF'}
+          minimumTrackTintColor={isLight ? '#0099db' : '#0099db'}
           maximumTrackTintColor={isLight ? '#AAAAAA' : '#444444'}
-          thumbTintColor="#028090"
+          thumbTintColor="#0099db"
         />
         <ThemedText style={{ color: textColor }}>{settings.volume}</ThemedText>
       </View>
@@ -99,22 +99,26 @@ const styles = StyleSheet.create({
   topBar: {
     height: 100,
     width: '100%',
-    backgroundColor: '#028090',
+    backgroundColor: '#0099db',
     flexDirection: 'row',
     alignItems: 'center',
     paddingLeft: 10,
     borderBottomWidth: 2,
-    borderBottomColor: '#025964',
+    borderBottomColor: '#007db3',
   },
   text: {
     fontSize: 48,
-    fontWeight: '700',
+    fontFamily:"Font",
+    color: '#0099db',
+
   },
   textBody: {
     fontSize: 24,
-    fontWeight: '400',
     marginTop: 12,
+    fontFamily:"Font",
     marginBottom: 6,
+    color: '#0099db',
+
   },
   dropdown: {
     height: 50,
@@ -122,12 +126,21 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 16,
+    fontFamily:"Font",
+    color: '#0099db',
+
   },
   placeholderStyle: {
+    fontFamily:"Font",
     fontSize: 16,
+    color: '#0099db',
+
   },
   selectedTextStyle: {
+    fontFamily:"Font",
     fontSize: 16,
+    color: '#0099db',
+
   },
   iconStyle: {
     width: 20,
@@ -135,6 +148,8 @@ const styles = StyleSheet.create({
   },
   inputSearchStyle: {
     height: 40,
+    fontFamily:"Font",
+    color: '#0099db',
     fontSize: 16,
   },
 });

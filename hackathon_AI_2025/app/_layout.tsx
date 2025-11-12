@@ -3,7 +3,6 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useFonts } from 'expo-font';
-import{ Text } from 'react-native';
 import React from 'react';
 
 
@@ -23,14 +22,6 @@ export default function RootLayout() {
   if (!fontsLoaded) {
     return null;
   }
-  const TextAny = Text as any;
-  const oldTextRender = TextAny.render;
-  TextAny.render = function (...args:any[]) {
-    const origin = oldTextRender.call(this, ...args);
-    return React.cloneElement(origin, {
-      style: [{ fontFamily: 'Font' }, origin.props.style],
-    });
-  };
 
   return (
     <SettingsProvider>

@@ -1,7 +1,7 @@
 import { GoogleGenAI, PersonGeneration } from "@google/genai";
 import * as base64js from 'base64-js';
 import * as path from "node:path";
-const ai = new GoogleGenAI({ apiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY2 });
+const ai = new GoogleGenAI({ apiKey: process.env.EXPO_PUBLIC_GEMINI_API_KEY });
 
 const emotions: string[] = [
   "Happiness",
