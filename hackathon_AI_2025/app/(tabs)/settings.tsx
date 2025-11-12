@@ -76,7 +76,7 @@ export default function TabSixScreen() {
         <Slider
           value={settings.volume}
           onValueChange={value => saveSetting('volume', Math.ceil(value))}
-          style={{ width: 200, height: 40 }}
+          style={{ width: "100%", height: 40 }}
           minimumValue={0}
           maximumValue={100}
           minimumTrackTintColor={isLight ? '#000000' : '#FFFFFF'}

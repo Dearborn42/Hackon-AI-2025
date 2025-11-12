@@ -20,13 +20,8 @@ export default function HomeScreen() {
       <View style={styles.topBar}>
         <Text style={styles.textHeader}>Welcome to NeuroArcade!</Text>
       </View>
-<<<<<<< HEAD
-      <Text style={styles.textHeader}></Text>
-    </View>
-=======
-      <Text style={styles.text}></Text>
+      <Text style={{}}></Text>
     </ThemedView>
->>>>>>> 54c8d9adb208d539aeeae6e1d35ee8a26558c69b
   );
 }
 
