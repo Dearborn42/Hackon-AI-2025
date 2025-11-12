@@ -1,166 +1,129 @@
-import { StyleSheet, View, Text } from 'react-native';
-import * as SecureStore from 'expo-secure-store';
-import { useEffect, useState } from 'react';
-import { Platform } from 'react-native';
-import { Dropdown } from "react-native-element-dropdown"
+import { View, StyleSheet } from 'react-native';
+import { Dropdown } from 'react-native-element-dropdown';
 import Slider from '@react-native-community/slider';
-
-export interface Settings {
-  voice: "english" | "african" | "american" | "indian",
-  volume: number,
-}
-
-async function save(key: string, value: any) {
-  const formattedData = JSON.stringify(value)
-  if (Platform.OS == "web") {
-    localStorage.setItem(key, formattedData);
-  } else {
-    await SecureStore.setItemAsync(key, formattedData);
-
-  }
-}
-
-async function getValue(key: string) {
-  let result: string | null = null;
-
-  if (Platform.OS === 'web') { // check if on web
-    result = localStorage.getItem(key);
-  } else {
-    result = await SecureStore.getItemAsync(key);
-  }
-
-  if (result === null) return null;
-  try {
-    return JSON.parse(result);
-  } catch (e) {
-    return result;
-  }
-}
+import { useSettings } from '../../components/settings-context';
+import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text';
 
 export default function TabSixScreen() {
-  const [settings, setSettings] = useState<Settings>({
-    voice: 'english',
-    volume: 50 // default settings
-  });
+  const { settings, saveSetting } = useSettings();
 
-  useEffect(() => { // load settings from local storage if no data then keep defaults
-    const loadSettings = async () => {
-      const newSettings = { ...settings };
-
-      for (const key in newSettings) {
-
-        const newValue = await getValue(key)
-
-        if (newValue !== null) {
-          if (key == "volume") {
-             (newSettings as any)[key] = Number(newValue)
-          } else {
-            (newSettings as any)[key] = newValue
-          }
-        
-        }
-      }
-
-
-
-      setSettings(newSettings);
-    };
-
-    loadSettings();
-  }, []);
+  const isLight = settings.theme === 'light';
+  const bgColor = isLight ? '#FFFFFF' : '#1C1C1E';
+  const textColor = isLight ? '#1C1C1E' : '#FFFFFF';
+  const borderColor = isLight ? '#CCCCCC' : '#444444';
+  const dropdownBg = isLight ? '#F5F5F5' : '#2C2C2E';
+  const placeholderColor = isLight ? '#666666' : '#AAAAAA';
 
   return (
-    <View style={styles.bgContainer}>
-      {}
+    <ThemedView style={styles.bgContainer}>
       <View style={styles.topBar}>
-        <Text style={styles.text}>Settings</Text>
+        <ThemedText style={[styles.text, { color: 'white' }]}>Settings</ThemedText>
       </View>
 
-      {}
-      <View style={styles.bgContainer}>
-        <Text style={styles.textBody}>Voice</Text>
+      <View style={[styles.innerContainer]}>
+        <ThemedText style={[styles.textBody, { color: textColor }]}>Voice</ThemedText>
         <Dropdown
           data={[
             { label: "English", value: "english" },
             { label: "African", value: "african" },
             { label: "Indian", value: "indian" },
-            { label: "American", value: "american" }
+            { label: "American", value: "american" },
           ]}
           value={settings.voice}
-          style={styles.dropdown}
-          placeholderStyle={styles.placeholderStyle}
-          selectedTextStyle={styles.selectedTextStyle}
-          inputSearchStyle={styles.inputSearchStyle}
+          style={[
+            styles.dropdown,
+            { backgroundColor: dropdownBg, borderColor: borderColor },
+          ]}
+          placeholderStyle={[styles.placeholderStyle, { color: placeholderColor }]}
+          selectedTextStyle={[styles.selectedTextStyle, { color: textColor }]}
+          inputSearchStyle={[styles.inputSearchStyle, { color: textColor }]}
           iconStyle={styles.iconStyle}
           search
           maxHeight={300}
           labelField="label"
           valueField="value"
-          placeholder="Select item"
+          placeholder="Select Voice"
           searchPlaceholder="Search..."
-          onChange={item => {
-            setSettings({ ...settings, voice: item.value });
-            save("voice", item.value);
-          }}
+          onChange={item => saveSetting('voice', item.value)}
         />
 
-        <Text style={styles.textBody}>Game Volume</Text>
+        {/* Theme */}
+        <ThemedText style={[styles.textBody, { color: textColor }]}>Theme</ThemedText>
+        <Dropdown
+          data={[
+            { label: "Dark", value: "dark" },
+            { label: "Light", value: "light" },
+          ]}
+          value={settings.theme}
+          style={[
+            styles.dropdown,
+            { backgroundColor: dropdownBg, borderColor: borderColor },
+          ]}
+          placeholderStyle={[styles.placeholderStyle, { color: placeholderColor }]}
+          selectedTextStyle={[styles.selectedTextStyle, { color: textColor }]}
+          inputSearchStyle={[styles.inputSearchStyle, { color: textColor }]}
+          iconStyle={styles.iconStyle}
+          search
+          maxHeight={300}
+          labelField="label"
+          valueField="value"
+          placeholder="Select Theme"
+          searchPlaceholder="Search..."
+          onChange={item => saveSetting('theme', item.value)}
+        />
+
+        {/* Volume */}
+        <ThemedText style={[styles.textBody, { color: textColor }]}>Game Volume</ThemedText>
         <Slider
           value={settings.volume}
-          onValueChange={item => {
-            setSettings({ ...settings, volume: Math.ceil(item) });
-            save("volume", Math.ceil(item));
-          }}
+          onValueChange={value => saveSetting('volume', Math.ceil(value))}
           style={{ width: 200, height: 40 }}
           minimumValue={0}
           maximumValue={100}
-          minimumTrackTintColor="#000000"
-          maximumTrackTintColor="#000000"
-          thumbTintColor='#028090'
+          minimumTrackTintColor={isLight ? '#000000' : '#FFFFFF'}
+          maximumTrackTintColor={isLight ? '#AAAAAA' : '#444444'}
+          thumbTintColor="#028090"
         />
-        <Text>{settings.volume}</Text>
+        <ThemedText style={{ color: textColor }}>{settings.volume}</ThemedText>
       </View>
-    </View>
-
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   bgContainer: {
-    height: "100%",
-    backgroundColor: "white"
+    height: '100%',
+  },
+  innerContainer: {
+    padding: 16,
   },
   topBar: {
     height: 100,
-    width: "100%",
-    backgroundColor: "#028090",
-    flexDirection: "row",
-    alignItems: "center",
+    width: '100%',
+    backgroundColor: '#028090',
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingLeft: 10,
     borderBottomWidth: 2,
-    borderBottomColor: "#025964",
+    borderBottomColor: '#025964',
   },
   text: {
-    color: "white",
     fontSize: 48,
-    fontWeight: "700",
+    fontWeight: '700',
   },
   textBody: {
-    color: "gray",
     fontSize: 24,
-    fontWeight: "400",
+    fontWeight: '400',
+    marginTop: 12,
+    marginBottom: 6,
   },
-  icons: {
-    color: "white",
-    marginRight: 10,
-  },
-
   dropdown: {
     height: 50,
-    borderColor: 'gray',
     borderWidth: 0.5,
     borderRadius: 8,
     paddingHorizontal: 8,
+    marginBottom: 16,
   },
   placeholderStyle: {
     fontSize: 16,
