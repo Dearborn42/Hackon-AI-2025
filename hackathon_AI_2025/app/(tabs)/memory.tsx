@@ -11,7 +11,7 @@ export default function TabThreeScreen() {
     const [pattern, setPattern] = useState<number[]>([0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0]);
     const [pressedIndexes, setPressedIndexes] = useState<number[]>([]);
     const [inGame, setInGame] = useState(false);
-    const [tip, setTip] = useState('This is a tip')
+    const [tip, setTip] = useState('')
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
 
@@ -33,15 +33,16 @@ export default function TabThreeScreen() {
 
     const startGame = async () => {
         if (inGame) return;
+        setPattern([Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)])
 
-        await showPattern();
         setInGame(true);
+        await showPattern();
+
     };
 
     function reset(lost: boolean) {
-        setPattern([Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2),Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)])
+        setInGame(false)
         setPressedIndexes([]);
-        setInGame(false);
         giveTips(lost)
 
     }
@@ -53,7 +54,7 @@ export default function TabThreeScreen() {
         if (pattern[index] === 0) {
             setTimeout(() => reset(true), 500);
 
-            alert("You lost :( try again");
+            setTip('Incorrect! Try again.')
             return;
         }
 
@@ -62,7 +63,7 @@ export default function TabThreeScreen() {
             newPressed.every(i => pattern[i] === 1);
 
         if (allRight) {
-            alert("You got it!");
+            setTip('Correct!')
             reset(false);
         }
 
@@ -86,85 +87,86 @@ export default function TabThreeScreen() {
 
     return (<>
         <View style={styles.topBar}>
-                <ThemedText style={styles.textHeader}>Memory Game</ThemedText>
+            <ThemedText style={styles.textHeader}>Memory Game</ThemedText>
         </View>
-    <ThemedView style={styles.container}>
-        
-        {
-        start==false ? (<>
-        <View style={styles.tutorialContainer}>
-                  <View style={styles.textContainer}>
-                      <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
-                      <Text style={styles.tutorialText}>1. You will be given a pattern to memorize with BLUE being correct and RED being incorrect.</Text>
-                      <Text style={styles.tutorialText}>2. Repeat the pattern by pressing the buttons in the correct order.</Text>
-                      <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a pattern!</Text>
-                      <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
-                  </View>
-                  <TouchableOpacity style={styles.startButton} onPress={()=>setStart(true)}>
-                      <Text style={styles.tutorialText}>Start Game</Text>
-                  </TouchableOpacity>
-              </View>
-        </>) : 
-        (
-            <>
-            
-            <ThemedText style = {styles.text}>{tip}</ThemedText>
-            <View>
-            <FlatList
-                data={pattern}
-                keyExtractor={(_, index) => index.toString()}
-                renderItem={renderItem}
-                numColumns={4}
-                scrollEnabled={false}
-                contentContainerStyle={[styles.grid,{flexGrow:0}]}
-            />
-            </View>
-            
-            <TouchableOpacity style={styles.startButton} onPress={startGame} disabled={inGame}>
-                <Text style={styles.tutorialText}>Play Pattern</Text>
-            </TouchableOpacity>
-            </>
-        )
-        }
+        <ThemedView style={styles.container}>
+
+            {
+                start == false ? (<>
+                    <View style={styles.tutorialContainer}>
+                        <View style={styles.textContainer}>
+                            <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
+                            <Text style={styles.tutorialText}>1. You will be given a pattern to memorize with BLUE being correct and RED being incorrect.</Text>
+                            <Text style={styles.tutorialText}>2. Repeat the pattern by pressing the buttons in the correct order.</Text>
+                            <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a pattern!</Text>
+                            <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
+                        </View>
+                        <TouchableOpacity style={styles.startButton} onPress={() => setStart(true)}>
+                            <Text style={styles.tutorialText}>Start Game</Text>
+                        </TouchableOpacity>
+                    </View>
+                </>) :
+                    (
+                        <>
+
+                            <ThemedText style={styles.text}>{tip}</ThemedText>
+                            <View>
+                                <FlatList
+                                    data={pattern}
+                                    keyExtractor={(_, index) => index.toString()}
+                                    renderItem={renderItem}
+                                    numColumns={4}
+                                    scrollEnabled={false}
+                                    contentContainerStyle={[styles.grid, { flexGrow: 0 }]}
+                                />
+                            </View>
+
+                            <TouchableOpacity style={styles.startButton} onPress={startGame} disabled={inGame}>
+                                <Text style={styles.tutorialText}
+                                >Play Pattern</Text>
+                            </TouchableOpacity>
+                        </>
+                    )
+            }
         </ThemedView>
     </>
-        
+
     );
 }
 
 
 
 const styles = StyleSheet.create({
-     textContainer:{
-    justifyContent:"center",
-    marginBottom:20,
-    paddingHorizontal:20,
-  },   
-  startButton:{
-    borderWidth:2,  
-    borderColor:"#a6a6a6",
-    paddingVertical:10,
-    width:"75%",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:10,
-    fontFamily:"Font",
-  }, tutorialContainer:{
-    justifyContent:"center",
-    alignItems:"center",
-    flex:1,
-  },
-    tutorialText:{
-    fontSize:16,
-    color:"#0099db",
-    fontFamily:"Font",
-  },
-  tutorialTextHeader:{
-    fontSize:22,
-    color:"#0099db",
-    fontFamily:"Font",
+    textContainer: {
+        justifyContent: "center",
+        marginBottom: 20,
+        paddingHorizontal: 20,
+    },
+    startButton: {
+        borderWidth: 2,
+        borderColor: "#a6a6a6",
+        paddingVertical: 10,
+        width: "75%",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: 10,
+        fontFamily: "Font",
+    }, tutorialContainer: {
+        justifyContent: "center",
+        alignItems: "center",
+        flex: 1,
+    },
+    tutorialText: {
+        fontSize: 16,
+        color: "#0099db",
+        fontFamily: "Font",
+    },
+    tutorialTextHeader: {
+        fontSize: 22,
+        color: "#0099db",
+        fontFamily: "Font",
 
-  },
+    },
     container: {
         alignItems: 'center',
         flex: 1,
@@ -183,14 +185,14 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#0099db',
-        fontSize:24,
+        fontSize: 24,
         fontFamily: "Font",
         alignSelf: 'center',
-        padding:20,
+        padding: 20,
     },
     textHeader: {
         color: 'white',
-        fontSize:40,
+        fontSize: 40,
         fontFamily: "Font",
     },
     button: {
@@ -209,7 +211,7 @@ const styles = StyleSheet.create({
 
     },
     grid: {
-        width:"95%",
-        marginBottom:20
+        width: "95%",
+        marginBottom: 20
     },
 });

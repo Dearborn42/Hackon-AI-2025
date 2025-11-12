@@ -1,4 +1,4 @@
-import { Button, StyleSheet, TextInput, View,TouchableOpacity,Image } from 'react-native';
+import { Button, StyleSheet, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -10,18 +10,46 @@ import { useSettings } from '@/components/settings-context';
 
 
 export default function TabFiveScreen() {
-  const [correct,setCorrect] = useState<boolean>(false);
-  const [wrong,setWrong] = useState<boolean>(false);
-  const [start,setStart] = useState<boolean>(false);
+  const [correct, setCorrect] = useState<boolean>(false);
+  const [wrong, setWrong] = useState<boolean>(false);
+  const [start, setStart] = useState<boolean>(false);
   const [textToSpeech, setTextToSpeech] = useState('');
   const [answer, setAnswer] = useState('');
   const [sentence, setSentence] = useState(getRandomSentence());
   const [instructions, setInstructions] = useState('Press listen and enter the sentence below');
-  const { settings } = useSettings(); 
+  const [currentVoice, setCurrentVoice] = useState('com.apple.voice.enhanced.en-US.Evan')
+
+  const { settings } = useSettings();
+
 
   const volume = settings.volume / 100;
 
-  const players = [useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")), useAudioPlayer(require("../../sounds/backgroundnoise2.mp3")),useAudioPlayer(require("../../sounds/backgroundnoise3.mp3"))];
+  const voices = [
+    {
+      voice: "english",
+      identifier: "com.apple.voice.compact.uk-UA.Lesya"
+    },
+    {
+      voice: "american",
+      identifier: "com.apple.voice.enhanced.en-US.Evan"
+    },
+    {
+      voice: "indian",
+      identifier: "com.apple.voice.compact.en-IN.Rishi"
+    },
+    {
+      voice: "african",
+      identifier: "com.apple.voice.compact.en-ZA.Tessa"
+    }
+  ]
+
+  const players = [
+    useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")),
+    useAudioPlayer(require("../../sounds/backgroundnoise2.mp3")),
+    useAudioPlayer(require("../../sounds/backgroundnoise3.mp3")),
+    useAudioPlayer(require("../../sounds/backgroundnoise4.mp3")),
+    useAudioPlayer(require("../../sounds/backgroundnoise5.mp3"))
+  ];
 
   async function isSpeaking(): Promise<boolean> {
     return await Speech.isSpeakingAsync();
@@ -42,12 +70,12 @@ export default function TabFiveScreen() {
     if (textToSpeech && !speaking) {
 
       const player = playBackgroundSound()
-      Speech.getAvailableVoicesAsync().then(voices => {console.log(voices)})
+      Speech.getAvailableVoicesAsync().then(voices => { console.log(voices) })
       Speech.speak(textToSpeech, {
         language: 'en-US',
         pitch: 1.0,
         rate: 0.8,
-        voice: 'com.apple.voice.enhanced.en-US.Evan',
+        voice: currentVoice,
         volume: volume,
         onDone: () => {
           player.pause();
@@ -55,11 +83,11 @@ export default function TabFiveScreen() {
           player.seekTo(0)
         },
         onStopped: () => {
-          player.pause();      
+          player.pause();
           player.seekTo(0)
         },
         onError: () => {
-          player.pause();      
+          player.pause();
           player.seekTo(0)
         },
       });
@@ -75,7 +103,11 @@ export default function TabFiveScreen() {
 
   useEffect(() => {
     setTextToSpeech(sentence)
-  }, []);
+    const selectedVoice = voices.find(v => v.voice === settings.voice);
+    if (selectedVoice) {
+      setCurrentVoice(selectedVoice.identifier);
+    }
+  }, [settings.voice]);
 
   async function submitAnswer() {
     setInstructions("Grading...")
@@ -102,71 +134,71 @@ export default function TabFiveScreen() {
       <View style={styles.topBar}>
         <Text style={styles.text}>Audio Game</Text>
       </View>
-      {start==false && 
-      <View style={styles.tutorialContainer}>
+      {start == false &&
+        <View style={styles.tutorialContainer}>
           <View style={styles.textContainer}>
-              <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
-              <Text style={styles.tutorialText}>1. You will be given audio to listen to.</Text>
-              <Text style={styles.tutorialText}>2. Enter the main point of the sentence as well as possible.</Text>
-              <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a new sentence!</Text>
-              <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
+            <Text style={styles.tutorialTextHeader}>Tutorial:</Text>
+            <Text style={styles.tutorialText}>1. You will be given audio to listen to.</Text>
+            <Text style={styles.tutorialText}>2. Enter the main point of the sentence as well as possible.</Text>
+            <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a new sentence!</Text>
+            <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
           </View>
-          <TouchableOpacity style={styles.startButton} onPress={()=>setStart(true)}>
-              <Text style={styles.tutorialText}>Start Game</Text>
-          </TouchableOpacity>
-      </View>
-      }
-      {start && <>
-      
-      <View style={styles.centerContainer}>
-        {
-            correct && (<Image source={require('../../assets/images/Correct.png')} style={styles.icons} />)
-        }
-        {
-            !correct && !wrong&& (<Image source={require('../../assets/images/Sound.png')} style={styles.icons} />)
-        }
-        {
-            wrong && (<Image source={require('../../assets/images/Wrong.png')} style={styles.icons} />)
-        }
-        <ThemedText style={styles.tutorialText}>{instructions}</ThemedText>
-        <TextInput
-          value={answer}
-          style={styles.textInput}
-          onChangeText={value => setAnswer(value)}
-          placeholder='Enter Answer'
-        />
-        <View style={styles.buttonRow}>
-          <TouchableOpacity style={styles.box} onPress={speakText}>
-            <Text style={styles.tutorialText}>Listen</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.box} onPress={submitAnswer}>
-            <Text style={styles.tutorialText}>Submit</Text>
+          <TouchableOpacity style={styles.startButton} onPress={() => setStart(true)}>
+            <Text style={styles.tutorialText}>Start Game</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      }
+      {start && <>
+
+        <View style={styles.centerContainer}>
+          {
+            correct && (<Image source={require('../../assets/images/Correct.png')} style={styles.icons} />)
+          }
+          {
+            !correct && !wrong && (<Image source={require('../../assets/images/Sound.png')} style={styles.icons} />)
+          }
+          {
+            wrong && (<Image source={require('../../assets/images/Wrong.png')} style={styles.icons} />)
+          }
+          <ThemedText style={styles.tutorialText}>{instructions}</ThemedText>
+          <TextInput
+            value={answer}
+            style={styles.textInput}
+            onChangeText={value => setAnswer(value)}
+            placeholder='Enter Answer'
+          />
+          <View style={styles.buttonRow}>
+            <TouchableOpacity style={styles.box} onPress={speakText}>
+              <Text style={styles.tutorialText}>Listen</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.box} onPress={submitAnswer}>
+              <Text style={styles.tutorialText}>Submit</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </>
-    }
+      }
     </ThemedView>
   );
 
 }
 
 const styles = StyleSheet.create({
-  icons:{
-    width:200,
-    height:200,
-    marginBottom:20,
+  icons: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
   },
-   box: {
-    borderWidth:2,  
-    borderColor:"#a6a6a6",
-    paddingVertical:10,
-    width:"75%",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:10,
-    fontFamily:"Font",
-    marginHorizontal:15,
+  box: {
+    borderWidth: 2,
+    borderColor: "#a6a6a6",
+    paddingVertical: 10,
+    width: "75%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    fontFamily: "Font",
+    marginHorizontal: 15,
   },
   topBar: {
     height: 100,
@@ -181,14 +213,14 @@ const styles = StyleSheet.create({
   text: {
     color: "white",
     fontSize: 40,
-    fontFamily:"Font",
+    fontFamily: "Font",
 
   },
-  tutorialContainer:{
-    justifyContent:"center",
-    alignItems:"center",
-    flex:1,
-  }, 
+  tutorialContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1,
+  },
   centerContainer: {
     flex: 1,
     justifyContent: "center",
@@ -196,47 +228,47 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   textInput: {
-    width: "95%", // reduced width
+    width: "95%", 
     height: 40,
-    backgroundColor:"white",
-    borderWidth:2,
-    borderColor:"#a6a6a6",
+    backgroundColor: "white",
+    borderWidth: 2,
+    borderColor: "#a6a6a6",
     borderRadius: 8,
     paddingHorizontal: 8,
     marginBottom: 20,
-    fontFamily:"Font",
-    color:"#0099db",
+    fontFamily: "Font",
+    color: "#0099db",
   },
   buttonRow: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-tutorialText:{
-    fontSize:16,
-    color:"#0099db",
-    fontFamily:"Font",
+  tutorialText: {
+    fontSize: 16,
+    color: "#0099db",
+    fontFamily: "Font",
   },
-  tutorialTextHeader:{
-    fontSize:22,
-    color:"#0099db",
-    fontFamily:"Font",
+  tutorialTextHeader: {
+    fontSize: 22,
+    color: "#0099db",
+    fontFamily: "Font",
 
   },
-    textContainer:{
-    justifyContent:"center",
-    marginBottom:20,
-    paddingHorizontal:20,
-  },   
-  startButton:{
-    borderWidth:2,  
-    borderColor:"#a6a6a6",
-    paddingVertical:10,
-    width:"75%",
-    justifyContent:"center",
-    alignItems:"center",
-    borderRadius:10,
-    fontFamily:"Font",
+  textContainer: {
+    justifyContent: "center",
+    marginBottom: 20,
+    paddingHorizontal: 20,
+  },
+  startButton: {
+    borderWidth: 2,
+    borderColor: "#a6a6a6",
+    paddingVertical: 10,
+    width: "75%",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 10,
+    fontFamily: "Font",
 
   }
 });
