@@ -1,5 +1,5 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet, View,Text } from 'react-native';
+
+import { Platform, StyleSheet, View,Text,Image } from 'react-native';
 
 import { HelloWave } from '@/components/hello-wave';
 import ParallaxScrollView from '@/components/parallax-scroll-view';
@@ -14,6 +14,7 @@ export default function HomeScreen() {
     <View style={styles.bgContainer}>
       <View style={styles.topBar}>
         <FontAwesome6 name="fire" size={iconSize} style={styles.icons} />
+        {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
         <Text style={styles.text}>67</Text>
       </View>
       <View style={styles.topBar}>
