@@ -11,7 +11,7 @@ import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
 export default function HomeScreen() {
     const iconSize = 48;
   return (
-    <View style={styles.bgContainer}>
+    <ThemedView style={styles.bgContainer}>
       <View style={styles.topBar}>
         <FontAwesome6 name="fire" size={iconSize} style={styles.icons} />
         {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
@@ -21,14 +21,14 @@ export default function HomeScreen() {
         <Text style={styles.text}>Welcome to duolingo</Text>
       </View>
       <Text style={styles.text}></Text>
-    </View>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   bgContainer: {
     height:"100%",
-    backgroundColor:"white",
+    
   },
   topBar:{
     height:100,

@@ -40,12 +40,12 @@ export default function TabFiveScreen() {
     if (textToSpeech && !speaking) {
 
       const player = playBackgroundSound()
-
+      Speech.getAvailableVoicesAsync().then(voices => {console.log(voices)})
       Speech.speak(textToSpeech, {
         language: 'en-US',
         pitch: 1.0,
-        rate: 1.0,
-        voice: 'com.apple.ttsbundle.Siri-Voice4-Enhanced',
+        rate: 0.8,
+        voice: 'com.apple.voice.enhanced.en-US.Evan',
         volume: volume,
         onDone: () => {
           player.pause();
