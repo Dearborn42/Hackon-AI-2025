@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
 import { View, TextInput, Button, Alert } from 'react-native';
 import { UserContext } from '@/components/user-context';
+import { useRouter } from 'expo-router';
 
 export default function SignUpScreen() {
+  const router = useRouter();
   const { signUpUser } = useContext(UserContext);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -11,7 +13,7 @@ export default function SignUpScreen() {
     const success = await signUpUser(email, password);
     if (success) {
       Alert.alert('Success', 'Account created!');
-      // Navigate to home or login screen
+      router.replace('/home');
     } else {
       Alert.alert('Error', 'User already exists.');
     }

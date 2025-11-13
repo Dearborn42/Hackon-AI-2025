@@ -1,6 +1,5 @@
 import React, { useState, createContext, ReactNode } from 'react';
 import * as SecureStore from 'expo-secure-store';
-import { useRouter } from 'expo-router';
 
 // Define the context type
 type UserContextType = {
@@ -31,7 +30,6 @@ type UserContextProviderProps = {
 
 // Provider component
 export function UserContextProvider({ children }: UserContextProviderProps) {
-  const router = useRouter();
   const [streak, setStreak] = useState<number>(1);
   const [level, setLevel] = useState<number[]>([0, 0, 0, 0, 0,]);
 
@@ -75,7 +73,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       const existing = await SecureStore.getItemAsync(key);
 
       if (existing) {
-        router.replace('/home');
         return true; // Signup failed — user exists
       }
 
@@ -91,7 +88,6 @@ export function UserContextProvider({ children }: UserContextProviderProps) {
       setLevel(newUserData.level);
 
       console.log('New user created successfully.');
-      router.replace('/home');
       return true;
     } catch (err) {
       console.error('Error signing up user:', err);

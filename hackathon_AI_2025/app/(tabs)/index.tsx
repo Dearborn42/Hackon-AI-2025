@@ -1,15 +1,11 @@
-
-import { Platform, StyleSheet, View,Text,Image } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
+import {StyleSheet, View,Text,Image } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-import { FontAwesome6, MaterialIcons } from '@expo/vector-icons';
+import { UserContext } from '@/components/user-context';
+import { useContext } from 'react';
 
 export default function HomeScreen() {
-    const iconSize = 80;
+  const { streak, level, setLevel, setStreak } = useContext(UserContext);
+  const iconSize = 80;
   return (
     <ThemedView style={styles.bgContainer}>
       <View style={styles.topBar}>
@@ -19,7 +15,9 @@ export default function HomeScreen() {
         <Image source={require('../../assets/images/Level.png')} style={[styles.icons,{ width: iconSize, height: iconSize }]}/>
         <Text style={styles.textHeader}>67</Text>
       </View>
-      <Text style={{}}></Text>
+      <Text style={{}}>
+        {}
+      </Text>
     </ThemedView>
   );
 }
