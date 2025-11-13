@@ -57,7 +57,7 @@ export default function TabFiveScreen() {
   function playBackgroundSound() {
     const rand = Math.floor(Math.random() * players.length);
     const player = players[rand];
-    player.volume = 1 + Math.exp(level / 5)
+    player.volume = 1 - 1 / (level+2);
 
     player.play();
 
