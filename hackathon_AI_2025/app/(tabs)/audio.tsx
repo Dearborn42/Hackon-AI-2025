@@ -134,7 +134,7 @@ export default function TabFiveScreen() {
   return (
     <ThemedView style={{ flex: 1 }}>
       <View style={styles.topBar}>
-        <Text style={styles.text}>Audio Game</Text>
+        <Text style={styles.text}>Audio - Lvl: {level}</Text>
       </View>
       {start == false &&
         <View style={styles.tutorialContainer}>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "white",
-    fontSize: 40,
+    fontSize: 36,
     fontFamily: "Font",
         textAlign:"center",
 

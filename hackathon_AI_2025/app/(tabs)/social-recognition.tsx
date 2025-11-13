@@ -75,7 +75,7 @@ export default function TabSevenScreen() {
         <ThemedView style={styles.titleContainer}>
             <View style={styles.topBar}>
                 {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
-                <Text style={styles.textHeader}>Social Cues</Text>
+                <Text style={styles.textHeader}>Social - Lvl: {difficulty-1}</Text>
             </View>
             {wrong && 
                     <Image source={require('../../assets/images/Wrong.png')} style={styles.wrong}/>
@@ -269,7 +269,7 @@ const styles = StyleSheet.create({
   },
   textHeader:{
     color:"white",
-    fontSize:40,
+    fontSize:36,
     fontFamily:"Font",
   },
 });

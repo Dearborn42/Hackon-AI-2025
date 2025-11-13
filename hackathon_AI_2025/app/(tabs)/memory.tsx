@@ -115,7 +115,7 @@ export default function TabThreeScreen() {
 
     return (<>
         <View style={styles.topBar}>
-            <ThemedText style={styles.textHeader}>Memory Game</ThemedText>
+            <ThemedText style={styles.textHeader}>Memory - Lvl: {level}</ThemedText>
         </View>
         <ThemedView style={styles.container}>
 
@@ -235,7 +235,7 @@ const styles = StyleSheet.create({
     },
     textHeader: {
         color: 'white',
-        fontSize: 40,
+        fontSize: 34,
         fontFamily: "Font",
     },
     button: {
