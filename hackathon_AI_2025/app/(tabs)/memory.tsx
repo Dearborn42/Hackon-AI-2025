@@ -79,7 +79,13 @@ export default function TabThreeScreen() {
         if (allRight) {
             setTip('Correct!')
             setLevel(level < 13 ? level + 1 : level);
-
+            const localStreak = localStorage.getItem("value3");
+            if (localStreak) {
+                const result = JSON.parse(localStreak);
+                var newResult = {...result};
+                newResult.level[0] = level < 13 ? level + 1 : level;
+                localStorage.setItem("value3", newResult);
+            }
             setCorrect(true);
             setTimeout(() => {
                 setCorrect(false);
@@ -109,8 +115,12 @@ export default function TabThreeScreen() {
         for (let i = 0; i < level + 3; i++) {
             setPattern(prev => [...prev, Math.floor(Math.random() * 2)]);
         }
-
-    }, [])
+        const localStreak = localStorage.getItem("value3");
+        if (localStreak) {
+            const result = JSON.parse(localStreak);
+            setLevel(result.level[0]);
+        }
+    }, [level])
 
 
     return (<>

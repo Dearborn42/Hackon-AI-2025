@@ -18,6 +18,7 @@ export default function TabSevenScreen() {
     const [answerOptions, setAnswerOptions] = useState<string[]>([]);
     const [userQuess, setUserQuess] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(2);
+    const [level, setLevel] = useState<number>(2);
     function changeDiff(){
         if(difficulty < 4)
             setDifficulty((prev)=> prev + 1)
@@ -38,6 +39,14 @@ export default function TabSevenScreen() {
         if(quess === answer){
             setWrong(false);
             changeDiff();
+            setLevel(level + 1);
+            const localStreak = localStorage.getItem("value3");
+            if (localStreak) {
+                const result = JSON.parse(localStreak);
+                var newResult = {...result};
+                newResult.level[1] = level + 1;
+                localStorage.setItem("value3", newResult);
+            }
         }else{
             setWrong(true);
             setTimeout(() => {
@@ -56,7 +65,12 @@ export default function TabSevenScreen() {
     useEffect(function(){
         console.log("Run UseEffect");
         if(start){
-            console.log("Run Start" + " Difficulty: "+difficulty)
+            console.log("Run Start" + " Difficulty: "+difficulty);
+            const localStreak = localStorage.getItem("value3");
+            if (localStreak) {
+                const result = JSON.parse(localStreak);
+                setLevel(result.level[1]);
+            }
             pictureGame(difficulty).then((res) => {
                 if(res.result && res.emotionOptions && res.emotionOptions.length > 0  && res.image){
                     setAnswer(res.emotionOptions[0]);

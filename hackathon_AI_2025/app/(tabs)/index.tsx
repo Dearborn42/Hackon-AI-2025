@@ -1,19 +1,34 @@
 import {StyleSheet, View,Text,Image } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { UserContext } from '@/components/user-context';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
+type infoObject = {
+  streak: number,
+  level: number[]
+};
 export default function HomeScreen() {
-  const { streak, level, setLevel, setStreak } = useContext(UserContext);
+  // const { streak, level, setLevel, setStreak } = useContext(UserContext);
   const iconSize = 80;
+  const [info, setInfo] = useState<infoObject>({streak: 0, level: [0, 0, 0]});
+  useEffect(function(){
+    const localStreak = localStorage.getItem("value3");
+    if (localStreak) {
+      const result = JSON.parse(localStreak);
+      setInfo(result);
+    }else{
+      localStorage.setItem("value", JSON.stringify({ streak: 1, level: [0, 0, 0] }));
+      setInfo({streak: 1, level: [0, 0, 0]})
+    }
+  }, []);
   return (
     <ThemedView style={styles.bgContainer}>
       <View style={styles.topBar}>
         {/* <FontAwesome6 name="fire" size={iconSize} style={styles.icons} /> */}
         <Image source={require('../../assets/images/Fire.png')} style={[styles.icons,{ width: iconSize, height: iconSize }]} />
-        <Text style={styles.textHeader}>67</Text>
+        <Text style={styles.textHeader}>{info.streak}</Text>
         <Image source={require('../../assets/images/Level.png')} style={[styles.icons,{ width: iconSize, height: iconSize }]}/>
-        <Text style={styles.textHeader}>67</Text>
+        <Text style={styles.textHeader}>{info.level.reduce((accumulator, current) => accumulator + current, 0)}</Text>
       </View>
       <View style={styles.bgContainer}>
         <Text style={styles.text1}>Welcome to NeuroArcade!</Text>

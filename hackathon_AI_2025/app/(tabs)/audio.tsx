@@ -103,6 +103,11 @@ export default function TabFiveScreen() {
   }
 
   useEffect(() => {
+    const localStreak = localStorage.getItem("value3");
+    if (localStreak) {
+      const result = JSON.parse(localStreak);
+      setLevel(result.level[2]);
+    }
     setTextToSpeech(sentence)
     const selectedVoice = voices.find(v => v.voice === settings.voice);
     if (selectedVoice) {
@@ -120,6 +125,13 @@ export default function TabFiveScreen() {
         changeSentence();
         setInstructions("Press listen and enter your answer below");
         setLevel(level + 1);
+        const localStreak = localStorage.getItem("value3");
+        if (localStreak) {
+          const result = JSON.parse(localStreak);
+          var newResult = {...result};
+          newResult.level[2] = level + 1;
+          localStorage.setItem("value3", newResult);
+        }
       }, 2000)
     ) : (
       setWrong(true),
