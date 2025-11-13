@@ -3,11 +3,11 @@ import { Stack } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
 import 'react-native-reanimated';
 import { useFonts } from 'expo-font';
-import React from 'react';
 
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { SettingsProvider } from '@/components/settings-context';
+import { UserContextProvider } from '@/components/user-context';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -25,13 +25,16 @@ export default function RootLayout() {
 
   return (
     <SettingsProvider>
-      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
-        </Stack>
-        <StatusBar style="auto" />
-      </ThemeProvider>
+      <UserContextProvider>
+        <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+            <Stack.Screen name="index" options={{ title: 'Signup'}} />
+          </Stack>
+          <StatusBar style="auto" />
+        </ThemeProvider>
+      </UserContextProvider>
     </SettingsProvider>
   );
 }
