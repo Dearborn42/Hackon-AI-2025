@@ -15,17 +15,41 @@ export default function HomeScreen() {
         <Image source={require('../../assets/images/Level.png')} style={[styles.icons,{ width: iconSize, height: iconSize }]}/>
         <Text style={styles.textHeader}>67</Text>
       </View>
+<<<<<<< Updated upstream:hackathon_AI_2025/app/(tabs)/index.tsx
       <Text style={{}}>
         {}
       </Text>
+=======
+      <View style={styles.bgContainer}>
+        <Text style={styles.text1}>Welcome to NeuroArcade!</Text>
+        <Text style={styles.text}>Click the games on the bottom tab to start learning!</Text>
+
+      </View>
+      <Text style={{}}></Text>
+>>>>>>> Stashed changes:hackathon_AI_2025/app/(tabs)/home.tsx
     </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
+   text1:{
+    fontFamily:"Font",
+    fontSize:36,
+    color:"#007db3",
+    marginBottom:20,
+    textAlign:"center",
+  },
+  text:{
+    fontFamily:"Font",
+    fontSize:28,
+    color:"#007db3",
+    marginBottom:20,
+    textAlign:"center",
+  },
   bgContainer: {
-    height:"100%",
-    
+    flex: 1,
+    alignItems: "center",
+    justifyContent:"center"
   },
   topBar:{
     height:100,
