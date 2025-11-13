@@ -1,4 +1,4 @@
-import { FlatList, StyleSheet, TouchableOpacity, View, Text, Button, Dimensions } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View, Text, Button, Dimensions,Image } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
 import { useState } from 'react';
@@ -7,6 +7,8 @@ import { giveTip } from '@/backend/fetchCalls';
 
 
 export default function TabThreeScreen() {
+    const [wrong, setWrong] = useState<boolean>(false);
+    const [correct, setCorrect] = useState<boolean>(false);
     const [start, setStart] = useState<boolean>(false);
     const [pattern, setPattern] = useState<number[]>([0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0]);
     const [pressedIndexes, setPressedIndexes] = useState<number[]>([]);
@@ -52,8 +54,12 @@ export default function TabThreeScreen() {
         setPressedIndexes(newPressed);
 
         if (pattern[index] === 0) {
+            setWrong(true);
+            setTimeout(() => {
+                setWrong(false);
+            }, 1000);
             setTimeout(() => reset(true), 500);
-
+            
             setTip('Incorrect! Try again.')
             return;
         }
@@ -64,6 +70,10 @@ export default function TabThreeScreen() {
 
         if (allRight) {
             setTip('Correct!')
+            setCorrect(true);
+            setTimeout(() => {
+                setCorrect(false);
+            }, 1000);
             reset(false);
         }
 
@@ -108,7 +118,12 @@ export default function TabThreeScreen() {
                 </>) :
                     (
                         <>
-
+                            {
+                                wrong && <Image source={require('../../assets/images/Wrong.png')} style={styles.icons} />
+                            }
+                            {
+                                correct && <Image source={require('../../assets/images/Correct.png')} style={styles.icons} />
+                            }
                             <ThemedText style={styles.text}>{tip}</ThemedText>
                             <View>
                                 <FlatList
@@ -137,6 +152,11 @@ export default function TabThreeScreen() {
 
 
 const styles = StyleSheet.create({
+    icons: {
+    width: 200,
+    height: 200,
+    marginBottom: 20,
+  },
     textContainer: {
         justifyContent: "center",
         marginBottom: 20,
