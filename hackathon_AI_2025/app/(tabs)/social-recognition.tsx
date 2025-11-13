@@ -168,16 +168,21 @@ const styles = StyleSheet.create({
     justifyContent:"center",
     alignItems:"center",
     flex:1,
+    
   }, 
   tutorialText:{
     fontSize:16,
     fontFamily:"Font",
     color:"#0099db",
+        textAlign:"center",
+
   },
   tutorialTextHeader:{
     fontSize:22,
     color:"#0099db",    
     fontFamily:"Font",
+        textAlign:"center",
+
 
   },
     textContainer:{

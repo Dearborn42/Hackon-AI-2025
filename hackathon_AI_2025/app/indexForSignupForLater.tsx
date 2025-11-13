@@ -14,7 +14,7 @@ export default function SignUpScreen() {
     const success = await signUpUser(email, password);
     if (success) {
       Alert.alert('Success', 'Account created!');
-      router.replace('/home');
+      // router.replace('/home');
     } else {
       Alert.alert('Error', 'User already exists.');
     }

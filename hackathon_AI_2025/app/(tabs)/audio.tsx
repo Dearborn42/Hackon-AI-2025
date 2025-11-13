@@ -214,6 +214,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontSize: 40,
     fontFamily: "Font",
+        textAlign:"center",
 
   },
   tutorialContainer: {
@@ -248,11 +249,15 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#0099db",
     fontFamily: "Font",
+        textAlign:"center",
+
   },
   tutorialTextHeader: {
     fontSize: 22,
     color: "#0099db",
     fontFamily: "Font",
+        textAlign:"center",
+
 
   },
   textContainer: {
