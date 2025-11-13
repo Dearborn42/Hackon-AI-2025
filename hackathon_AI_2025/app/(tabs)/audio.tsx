@@ -130,7 +130,7 @@ export default function TabFiveScreen() {
           const result = JSON.parse(localStreak);
           var newResult = {...result};
           newResult.level[2] = level + 1;
-          localStorage.setItem("value3", newResult);
+          localStorage.setItem("value3", JSON.stringify(newResult));
         }
       }, 2000)
     ) : (

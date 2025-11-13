@@ -13,11 +13,12 @@ export default function HomeScreen() {
   const [info, setInfo] = useState<infoObject>({streak: 0, level: [0, 0, 0]});
   useEffect(function(){
     const localStreak = localStorage.getItem("value3");
+    // const test = localStreak.json();
     if (localStreak) {
       const result = JSON.parse(localStreak);
       setInfo(result);
     }else{
-      localStorage.setItem("value", JSON.stringify({ streak: 1, level: [0, 0, 0] }));
+      localStorage.setItem("value3", JSON.stringify({ streak: 1, level: [0, 0, 0] }));
       setInfo({streak: 1, level: [0, 0, 0]})
     }
   }, []);

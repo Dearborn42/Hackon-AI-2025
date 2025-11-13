@@ -45,7 +45,7 @@ export default function TabSevenScreen() {
                 const result = JSON.parse(localStreak);
                 var newResult = {...result};
                 newResult.level[1] = level + 1;
-                localStorage.setItem("value3", newResult);
+                localStorage.setItem("value3", JSON.stringify(newResult));
             }
         }else{
             setWrong(true);
@@ -89,7 +89,7 @@ export default function TabSevenScreen() {
         <ThemedView style={styles.titleContainer}>
             <View style={styles.topBar}>
                 {/* <Image source={require('../../assets/images/Fire.png')} style={{ width: iconSize, height: iconSize}}/> */}
-                <Text style={styles.textHeader}>Social - Lvl: {difficulty-1}</Text>
+                <Text style={styles.textHeader}>Social - Lvl: {level}</Text>
             </View>
             {wrong && 
                     <Image source={require('../../assets/images/Wrong.png')} style={styles.wrong}/>

@@ -84,7 +84,7 @@ export default function TabThreeScreen() {
                 const result = JSON.parse(localStreak);
                 var newResult = {...result};
                 newResult.level[0] = level < 13 ? level + 1 : level;
-                localStorage.setItem("value3", newResult);
+                localStorage.setItem("value3", JSON.stringify(newResult));
             }
             setCorrect(true);
             setTimeout(() => {
@@ -117,6 +117,7 @@ export default function TabThreeScreen() {
         }
         const localStreak = localStorage.getItem("value3");
         if (localStreak) {
+            console.log(localStreak);
             const result = JSON.parse(localStreak);
             setLevel(result.level[0]);
         }
