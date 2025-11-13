@@ -18,35 +18,34 @@ export default function TabFiveScreen() {
   const [sentence, setSentence] = useState(getRandomSentence());
   const [instructions, setInstructions] = useState('Press listen and enter the sentence below');
   const [currentVoice, setCurrentVoice] = useState('com.apple.voice.enhanced.en-US.Evan')
+  const [level, setLevel] = useState(1)
 
   const { settings } = useSettings();
-
 
   const volume = settings.volume / 100;
 
   const voices = [
     {
       voice: "english",
-      identifier: "com.apple.voice.compact.uk-UA.Lesya"
+      identifier: "Google UK English Female"
     },
     {
       voice: "american",
-      identifier: "com.apple.voice.enhanced.en-US.Evan"
+      identifier: "Microsoft Mark - English (United States)"
     },
     {
       voice: "indian",
-      identifier: "com.apple.voice.compact.en-IN.Rishi"
+      identifier: "Google हिन्दी"
     },
     {
       voice: "african",
-      identifier: "com.apple.voice.compact.en-ZA.Tessa"
+      identifier: "Google português do Brasil"
     }
   ]
 
   const players = [
     useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")),
     useAudioPlayer(require("../../sounds/backgroundnoise2.mp3")),
-    useAudioPlayer(require("../../sounds/backgroundnoise3.mp3")),
     useAudioPlayer(require("../../sounds/backgroundnoise4.mp3")),
     useAudioPlayer(require("../../sounds/backgroundnoise5.mp3"))
   ];
@@ -58,7 +57,9 @@ export default function TabFiveScreen() {
   function playBackgroundSound() {
     const rand = Math.floor(Math.random() * players.length);
     const player = players[rand];
-    player.volume = volume
+    console.log(`Background volume: ${ 1 - Math.exp(-level / 5)}`)
+    player.volume = 1 - Math.exp(-level / 5)
+
     player.play();
 
     return player
@@ -74,9 +75,9 @@ export default function TabFiveScreen() {
       Speech.speak(textToSpeech, {
         language: 'en-US',
         pitch: 1.0,
-        rate: 0.8,
+        rate: 1,
         voice: currentVoice,
-        volume: volume,
+        volume: Math.exp(-level / 3),
         onDone: () => {
           player.pause();
 
@@ -118,6 +119,7 @@ export default function TabFiveScreen() {
         setCorrect(false);
         changeSentence();
         setInstructions("Press listen and enter your answer below");
+        setLevel(level + 1);
       }, 2000)
     ) : (
       setWrong(true),
@@ -229,7 +231,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   textInput: {
-    width: "95%", 
+    width: "95%",
     height: 40,
     backgroundColor: "white",
     borderWidth: 2,

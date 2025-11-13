@@ -1,7 +1,7 @@
-import { FlatList, StyleSheet, TouchableOpacity, View, Text, Button, Dimensions,Image } from 'react-native';
+import { FlatList, StyleSheet, TouchableOpacity, View, Text, Button, Dimensions, Image } from 'react-native';
 import { ThemedView } from '@/components/themed-view';
 import { ThemedText } from '@/components/themed-text';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { giveTip } from '@/backend/fetchCalls';
 
 
@@ -10,36 +10,44 @@ export default function TabThreeScreen() {
     const [wrong, setWrong] = useState<boolean>(false);
     const [correct, setCorrect] = useState<boolean>(false);
     const [start, setStart] = useState<boolean>(false);
-    const [pattern, setPattern] = useState<number[]>([0, 1, 1, 0, 0, 1, 1, 0, 0, 1, 1, 0]);
+    const [pattern, setPattern] = useState<number[]>([]);
     const [pressedIndexes, setPressedIndexes] = useState<number[]>([]);
     const [inGame, setInGame] = useState(false);
     const [tip, setTip] = useState('')
+    const [level, setLevel] = useState(1)
+    const [showing, setShowing] = useState(false);
 
     const delay = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
+
 
 
     async function giveTips(lost: boolean) {
         setTip(await giveTip(lost));
     }
 
-    const showPattern = async () => {
+    const showPattern = async (patternToShow = pattern) => {
         setPressedIndexes([]);
-
-        for (let i = 0; i < pattern.length; i++) {
+        setShowing(true)
+        for (let i = 0; i < patternToShow.length; i++) {
             setPressedIndexes([i]);
             await delay(500);
+            setPressedIndexes([]);
+            await delay(200);
         }
-
-        setPressedIndexes([]);
+        setShowing(false)
     };
-
     const startGame = async () => {
         if (inGame) return;
-        setPattern([Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2), Math.floor(Math.random() * 2)])
+        setPressedIndexes([]);
 
+        const newPattern = [];
+        for (let i = 0; i < level + 3; i++) {
+            newPattern.push(Math.floor(Math.random() * 2));
+        }
+
+        setPattern(newPattern);
+        await showPattern(newPattern);
         setInGame(true);
-        await showPattern();
-
     };
 
     function reset(lost: boolean) {
@@ -59,7 +67,7 @@ export default function TabThreeScreen() {
                 setWrong(false);
             }, 1000);
             setTimeout(() => reset(true), 500);
-            
+
             setTip('Incorrect! Try again.')
             return;
         }
@@ -70,6 +78,8 @@ export default function TabThreeScreen() {
 
         if (allRight) {
             setTip('Correct!')
+            setLevel(level < 13 ? level + 1 : level);
+
             setCorrect(true);
             setTimeout(() => {
                 setCorrect(false);
@@ -95,6 +105,14 @@ export default function TabThreeScreen() {
         );
     };
 
+    useEffect(() => {
+        for (let i = 0; i < level + 3; i++) {
+            setPattern(prev => [...prev, Math.floor(Math.random() * 2)]);
+        }
+
+    }, [])
+
+
     return (<>
         <View style={styles.topBar}>
             <ThemedText style={styles.textHeader}>Memory Game</ThemedText>
@@ -111,7 +129,7 @@ export default function TabThreeScreen() {
                             <Text style={styles.tutorialText}>3. If you are correct, you will move to the next level with a pattern!</Text>
                             <Text style={styles.tutorialText}>4. Try to get as far as you can!</Text>
                         </View>
-                        <TouchableOpacity style={styles.startButton} onPress={() => setStart(true)}>
+                        <TouchableOpacity style={styles.startButton} onPress={() => setStart(true)} >
                             <Text style={styles.tutorialText}>Start Game</Text>
                         </TouchableOpacity>
                     </View>
@@ -136,7 +154,7 @@ export default function TabThreeScreen() {
                                 />
                             </View>
 
-                            <TouchableOpacity style={styles.startButton} onPress={startGame} disabled={inGame}>
+                            <TouchableOpacity style={styles.startButton} onPress={startGame} disabled={inGame || showing}>
                                 <Text style={styles.tutorialText}
                                 >Play Pattern</Text>
                             </TouchableOpacity>
@@ -153,10 +171,10 @@ export default function TabThreeScreen() {
 
 const styles = StyleSheet.create({
     icons: {
-    width: 200,
-    height: 200,
-    marginBottom: 20,
-  },
+        width: 200,
+        height: 200,
+        marginBottom: 20,
+    },
     textContainer: {
         justifyContent: "center",
         marginBottom: 20,
