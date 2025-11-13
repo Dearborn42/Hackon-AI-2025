@@ -1,11 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { View, TextInput, Button, Alert } from 'react-native';
 import { UserContext } from '@/components/user-context';
-<<<<<<< Updated upstream:hackathon_AI_2025/app/indexForSignupForLater.tsx
 import { useRouter } from 'expo-router';
-=======
 import { ThemedView } from '@/components/themed-view';
->>>>>>> Stashed changes:hackathon_AI_2025/app/index.tsx
 
 export default function SignUpScreen() {
   const router = useRouter();
