@@ -26,7 +26,7 @@ export default function TabSixScreen() {
         <Dropdown
           data={[
             { label: "English", value: "english" },
-            { label: "African", value: "african" },
+            { label: "South American", value: "african" },
             { label: "Indian", value: "indian" },
             { label: "American", value: "american" },
           ]}

@@ -45,9 +45,9 @@ export default function TabFiveScreen() {
 
   const players = [
     useAudioPlayer(require("../../sounds/backgroundnoise1.mp3")),
-    useAudioPlayer(require("../../sounds/backgroundnoise2.mp3")),
-    useAudioPlayer(require("../../sounds/backgroundnoise4.mp3")),
-    useAudioPlayer(require("../../sounds/backgroundnoise5.mp3"))
+    // useAudioPlayer(require("../../sounds/backgroundnoise2.mp3")),
+    // useAudioPlayer(require("../../sounds/backgroundnoise4.mp3")),
+    // useAudioPlayer(require("../../sounds/backgroundnoise5.mp3"))
   ];
 
   async function isSpeaking(): Promise<boolean> {
@@ -264,6 +264,7 @@ const styles = StyleSheet.create({
     color: "#0099db",
     fontFamily: "Font",
         textAlign:"center",
+        marginBottom:10,
 
   },
   tutorialTextHeader: {

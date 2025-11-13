@@ -18,7 +18,7 @@ export default function TabSevenScreen() {
     const [answerOptions, setAnswerOptions] = useState<string[]>([]);
     const [userQuess, setUserQuess] = useState<string>("");
     const [difficulty, setDifficulty] = useState<number>(2);
-    const [level, setLevel] = useState<number>(2);
+    const [level, setLevel] = useState<number>(0);
     function changeDiff(){
         if(difficulty < 4)
             setDifficulty((prev)=> prev + 1)

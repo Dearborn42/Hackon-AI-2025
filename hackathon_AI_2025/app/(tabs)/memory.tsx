@@ -41,7 +41,7 @@ export default function TabThreeScreen() {
         setPressedIndexes([]);
 
         const newPattern = [];
-        for (let i = 0; i < level + 3; i++) {
+        for (let i = 0; i < level + 4; i++) {
             newPattern.push(Math.floor(Math.random() * 2));
         }
 
@@ -112,9 +112,7 @@ export default function TabThreeScreen() {
     };
 
     useEffect(() => {
-        for (let i = 0; i < level + 3; i++) {
-            setPattern(prev => [...prev, Math.floor(Math.random() * 2)]);
-        }
+        
         const localStreak = localStorage.getItem("value3");
         if (localStreak) {
             console.log(localStreak);
